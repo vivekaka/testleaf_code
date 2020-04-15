@@ -1,1 +1,145 @@
+package twentyOneDayChallenge;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class Day1_Selenium {
+
+	public static void main(String[] args) throws InterruptedException {
+
+
+		System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
+
+		ChromeDriver driver = new ChromeDriver();
+
+		driver.get("https://www.myntra.com/");
+
+		driver.manage().window().maximize();
+
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
+		WebElement eleMove = driver.findElement(By.xpath("(//a[@class='desktop-main'])[2]"));
+
+		Actions builder = new Actions(driver);
+
+		builder.moveToElement(eleMove).build().perform();
+
+		WebDriverWait drivers = new WebDriverWait(driver, 30);
+
+		driver.findElementByXPath("(//a[text()='Jackets & Coats'])[1]").click();
+
+		Thread.sleep(2000);
+
+		String str = driver.findElement(By.className("title-count")).getText();
+
+		String Text = str.replaceAll("\\D", "");
+
+		int parseInt = Integer.parseInt(Text);
+
+		System.out.println(parseInt);
+
+		String jackETS = driver.findElement(By.xpath("(//span[@class='categories-num'])[1]")).getText();
+
+		String jacketCount = jackETS.replaceAll("\\D", "");
+
+		int parseInt2 = Integer.parseInt(jacketCount);
+
+		System.out.println(parseInt2);
+
+		String coATS = driver.findElement(By.xpath("(//span[@class='categories-num'])[2]")).getText();
+
+		String coatCount = coATS.replaceAll("\\D", "");
+
+		int parseInt3 = Integer.parseInt(coatCount);
+
+		System.out.println(parseInt3);
+
+		if (parseInt2 + parseInt3 == parseInt) {
+
+			System.out.println("Count matches");
+		}
+
+		driver.findElementByXPath("(//div[@class='common-checkboxIndicator'])[2]").click();
+
+		driver.findElement(By.className("brand-more")).click();
+
+		Thread.sleep(2000);
+
+		driver.findElement(By.xpath("//input[@placeholder='Search brand']")).sendKeys("MANGO");
+		Thread.sleep(2000);
+
+		driver.findElement(By.xpath("//span[@class='FilterDirectory-count']/following-sibling::div[1]")).click();
+		Thread.sleep(2000);
+
+		driver.findElement(By.xpath("//span[contains(@class,'myntraweb-sprite FilterDirectory-close')]")).click();
+		Thread.sleep(2000);
+
+		List<WebElement> findElements = driver.findElementsByXPath("//u1[@class='results-base']");
+
+		int count = 0;
+
+		for (WebElement brandName : findElements) {
+
+			String manGO = brandName.getText();
+
+			if(manGO == "MANGO") {
+
+				count = count + 1;
+			}
+
+		}
+		if (count == findElements.size()) {
+			System.out.println("All mango brands are displayed");
+
+		}
+
+		builder.moveToElement(driver.findElementByXPath("//div[@class='sort-sortBy']")).build().perform();
+
+		builder.moveToElement(driver.findElementByXPath("//label[text()='Better Discount']")).click().build().perform();
+
+		Thread.sleep(3000);
+
+		String rs = driver.findElement(By.xpath("(//span[@class='product-discountedPrice'])[1]")).getText();
+
+		String replacED = rs.replaceAll("\\D", "");
+
+		int parseInt4 = Integer.parseInt(replacED);
+
+		System.out.println("The first better discount price is "+ parseInt4 );
+
+		WebElement mouseOver = driver.findElement(By.xpath("(//h4[@class='product-product'])[1]"));
+		Thread.sleep(2000);
+
+		builder.moveToElement(mouseOver).build().perform();
+
+		driver.findElement(By.xpath("(//span[text()='wishlist now'])[1]")).click();
+
+		String loginToMyntra = driver.findElement(By.className("login-title")).getText();
+
+
+		boolean title_Page = false;
+
+		if (loginToMyntra.contains("Login")) {
+
+			System.out.println("We are in login page");
+		}
+		else
+		{
+			System.out.println("Wishlist did not get clicked:(");
+
+		}
+		driver.close();
+
+		System.out.println("Run successful");
+	}
+
+}
 
