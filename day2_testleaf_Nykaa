@@ -1,1 +1,132 @@
 
+package twentyOneDayChallenge;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class Day2_Nykaa_Selenium {
+
+	public static void main(String[] args) throws InterruptedException {
+
+		System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
+
+		ChromeDriver driver = new ChromeDriver();
+
+		driver.get("https://www.nykaa.com/");
+
+		driver.manage().window().maximize();
+
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
+		WebElement branD = driver.findElement(By.xpath("(//li[@class='menu-dropdown-icon']//a)[1]"));
+
+		Actions action = new Actions(driver);
+
+		action.moveToElement(branD).build().perform();
+
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+
+		WebElement populAR = driver.findElement(By.xpath("//div[@class='BrandsCategoryHeading']//a[1]"));
+
+		action.moveToElement(populAR).build().perform();
+
+		driver.findElement(By.xpath("(//li[@class='brand-logo menu-links']//img)[5]")).click();
+
+
+		Set<String> windowHandles = driver.getWindowHandles();
+
+		List<String> windowList = new ArrayList<String>(windowHandles);
+
+		WebDriver window = driver.switchTo().window(windowList.get(1));
+
+		String title = window.getTitle();
+
+		if(title.contains("L'Oreal Paris")) {
+
+			System.out.println("L'Oreal Paris is present in the title of the page");
+		}
+
+		else {
+
+			System.out.println("L'Oreal Paris isn't present in the title of the page");
+		}
+
+		driver.findElement(By.xpath("//span[@class='pull-left']//span[1]")).click();
+		Thread.sleep(2000);
+
+		driver.findElement(By.xpath("(//div[@class='control__indicator radio'])[4]")).click();
+		Thread.sleep(2000);
+
+
+		String customerTopRated = driver.findElement(By.xpath("(//span[@class='pull-left']//span)[2]")).getText();
+
+		System.out.println("Filter is applied");
+
+
+		driver.findElement(By.xpath("(//div[@class='filter-sidebar__filter-title pull-left'])[1]")).click();
+		Thread.sleep(2000);
+
+		driver.findElement(By.xpath("(//label[@for='chk_Shampoo_undefined']//div)[1]")).click();
+		Thread.sleep(2000);
+
+		String shampooclose = driver.findElement(By.xpath("//li[text()='Shampoo']")).getText();
+
+		if(shampooclose.contains("Shampoo")) {
+
+			System.out.println("Filter is applied for shampoo");
+		}
+		else {
+
+			System.out.println("Filter isn't applied");
+		}
+
+		driver.findElement(By.xpath("(//img[@class='listing-img'])[4]")).click();
+		Thread.sleep(5000);
+
+		Set<String> windowHandles2 = driver.getWindowHandles();
+
+		List<String> windowList2 = new ArrayList<String>(windowHandles2);
+
+		driver.switchTo().window(windowList2.get(2));
+
+		System.out.println("In the third tab");
+
+		driver.findElement(By.xpath("(//label[@class='   text-center']//span)[1]")).click();
+
+		String MRP = driver.findElement(By.xpath("(//span[text()='150'])[1]")).getText();
+
+		String pRrice = MRP.replaceAll("\\D", "");
+
+		System.out.println("MRP Of The Product is : "+ pRrice);
+
+		driver.findElement(By.xpath("//div[@class='pull-left']//button[1]")).click();
+
+		driver.findElement(By.className("AddBagIcon")).click();
+		Thread.sleep(2000);
+
+		driver.findElement(By.xpath("//span[text()='Proceed']")).click();
+		Thread.sleep(3000);
+
+		driver.findElement(By.xpath("(//button[@type='button'])[2]")).click();
+
+		String warningMsg = driver.findElement(By.className("message")).getText();
+
+		System.out.println(warningMsg);
+
+		driver.quit();
+
+		System.out.println("Run Successful");
+	}
+
+}
+
+
