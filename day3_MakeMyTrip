@@ -1,1 +1,137 @@
 
+package twentyOneDayChallenge;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class Day3_MakeMyTrip {
+
+	public static void main(String[] args) throws InterruptedException {
+
+
+		System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
+
+		ChromeDriver driver = new ChromeDriver();
+
+		driver.get("https://www.makemytrip.com/");
+
+		driver.manage().window().maximize();
+
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
+		driver.findElement(By.xpath("//a[@href='https://www.makemytrip.com/hotels/']//span[1]")).click();
+
+		driver.findElementByXPath("//div[contains(@class,'hsw_inputBox selectHtlCity')]").click();
+
+		System.out.println("Moved to Hotels option");
+
+		WebDriverWait wait = new WebDriverWait(driver, 20);
+
+		Actions action = new Actions(driver);
+
+		WebElement seaRCH = driver.findElement(By.xpath("//input[contains(@class,'react-autosuggest__input react-autosuggest__input--open')]"));
+
+		action.moveToElement(seaRCH).click().build().perform();
+
+		driver.findElement(By.xpath("//input[contains(@class,'react-autosuggest__input react-autosuggest__input--open')]")).sendKeys("Goa");
+
+		driver.findElementByXPath("//li[@id='react-autowhatever-1-section-0-item-0']//p[text()='Goa, India']").click();
+
+		Thread.sleep(2000);
+
+		System.out.println("Goa has been selected");
+
+		driver.findElementById("checkin").click();
+
+		Thread.sleep(2000);
+
+		WebElement mAY15 = driver.findElementByXPath("//div[@class='DayPicker-Months']//div[@class='DayPicker-Month'][2]//div[@class='DayPicker-Body']//div/div[text()='15']");
+
+		mAY15.click();
+
+		driver.findElementByXPath("//div[text()='May']//ancestor::div[@class='DayPicker-Month']//div[@class='DayPicker-Day' and text()='19']").click();
+
+		driver.findElement(By.xpath("//span[text()=' Room ']")).click();
+
+		driver.findElement(By.xpath("//li[@data-cy='adults-2']")).click();
+
+		driver.findElement(By.xpath("//li[@data-cy='children-1']")).click();
+
+		WebElement cHILDAGE = driver.findElement(By.className("ageSelectBox")); 
+
+		Select dropDown = new Select(cHILDAGE);
+
+		dropDown.selectByVisibleText("12");
+
+		driver.findElement(By.xpath("(//button[@type='button'])[2]")).click();
+		Thread.sleep(2000);
+
+		driver.findElement(By.id("hsw_search_button")).click();
+		Thread.sleep(3000);
+
+		System.out.println("Tapped on Search");
+
+		action.moveToElement(driver.findElementById("seoH1DontRemove")).click().build().perform();
+
+		driver.findElement(By.xpath("//label[text()='Baga']")).click();
+		Thread.sleep(4000);
+
+		driver.findElement(By.xpath("//label[text()='5 Star']")).click();
+		Thread.sleep(2000);
+
+		driver.findElement(By.xpath("(//img[@alt='hotelImg'])[2]")).click();
+
+		System.out.println("Clicked the second hotel");
+
+		Set<String> windowHandles = driver.getWindowHandles();
+
+		List<String> newWindow = new ArrayList<String>(windowHandles);
+
+		driver.switchTo().window(newWindow.get(1));
+
+		System.out.println("New window opened");
+
+		String hotelName = driver.findElement(By.id("detpg_hotel_name")).getText();
+
+		System.out.println(hotelName);
+
+		driver.findElement(By.xpath("(//span[contains(@class,'latoBold font10')])[2]")).click();
+		Thread.sleep(2000);
+
+		driver.findElement(By.xpath("(//td[@class='textRight']//span)[1]")).click();
+
+		driver.findElement(By.className("close")).click();
+
+		driver.findElement(By.id("detpg_headerright_book_now")).click();
+
+		System.out.println("Selected Book this now");
+		Thread.sleep(3000);
+
+		//		driver.findElement(By.xpath("(//div[@class='_Modal modalCont']//span)[1]")).click();
+
+		String iNR = driver.findElement(By.id("revpg_total_payable_amt")).getText();
+
+		String totalAmt = iNR.replaceAll("\\D", "");
+
+		int parseInt = Integer.parseInt(totalAmt);
+
+		System.out.println(parseInt);
+
+		driver.quit();
+
+		System.out.println("Run successful");
+
+
+	}
+
+}
