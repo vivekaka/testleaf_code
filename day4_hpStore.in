@@ -1,0 +1,148 @@
+package twentyOneDayChallenge;
+
+import java.util.NoSuchElementException;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class Day4_hpStore {
+
+	public static void main (String [] args) throws InterruptedException {
+
+
+		System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
+
+		ChromeDriver driver = new ChromeDriver();
+
+		driver.get("https://store.hp.com/in-en/");
+
+		System.out.println("In the hp_Store webpage");
+
+		driver.manage().window().maximize();
+
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
+		WebElement laptoPS = driver.findElementByXPath("//a[contains(@class,'level-top ui-corner-all has-dropdown-menu')]//span[text()='Laptops']");
+
+		Actions action = new Actions(driver);
+
+		action.moveToElement(laptoPS).build().perform();
+		Thread.sleep(2000);
+
+		driver.findElementByXPath("//a[contains(@class,'ui-corner-all')]//span[text()='Pavilion']").click();
+
+		System.out.println("Clicked Pavilion");
+
+		WebDriverWait wait = new WebDriverWait(driver, 20);
+
+		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@aria-label='Accept Cookies']")));
+
+		driver.findElementByXPath("//button[@aria-label='Accept Cookies']").click();
+
+		System.out.println("Accept Cookies button clicked");
+		Thread.sleep(3000);
+
+		driver.findElementByXPath("(//span[text()='Processor'])[2]").click();
+		driver.findElementByXPath("//span[text()='Intel Core i7']").click();
+
+		System.out.println("Checked Processor");
+		Thread.sleep(4000);
+
+
+		driver.findElementByXPath("//span[contains(text(),'More than 1 TB')]").click();
+		Thread.sleep(3000);
+
+		System.out.println("Checked Hard Driver Capacity");
+
+		WebElement sortBy = driver.findElement(By.xpath("(//select[@id='sorter'])[1]")); 
+
+		Select dropDown = new Select(sortBy);
+
+		dropDown.selectByValue("price_asc");
+		Thread.sleep(2000);
+
+		System.out.println("Filter have been applied");
+
+		System.out.println(driver.findElement(By.xpath("(//a[@class='product-item-link'])[1]")).getText());
+
+		String str = driver.findElement(By.xpath("(//span[@class='price'])[2]")).getText();
+
+
+		String priceOFLap = str.replaceAll("\\D", "");
+
+		int parseInt = Integer.parseInt(priceOFLap);
+
+		System.out.println("Price of the laptop : "+parseInt);
+
+		driver.findElement(By.xpath("(//span[text()='Add To Cart'])[1]")).click();
+		Thread.sleep(3000);
+
+		System.out.println("Added to the cart");
+
+		driver.findElement(By.xpath("//a[@class='action showcart']")).click();
+
+		driver.findElement(By.xpath("//span[text()='View and edit cart']")).click();
+		Thread.sleep(3000);
+
+		System.out.println("Clicked on View and Edit button");
+
+		driver.findElement(By.name("pincode")).sendKeys("600021");
+
+		System.out.println("Passed the pincode value");
+
+		driver.findElement(By.xpath("(//button[@type='button'])[4]")).click();
+
+		System.out.println("Checked");
+		Thread.sleep(3000);
+
+		String str2 = driver.findElement(By.xpath("//td[@data-th='Order Total']//span[1]")).getText();
+
+		String veriFY = str2.replaceAll("\\D", "");
+
+		int veriFication = Integer.parseInt(veriFY);
+
+		if(veriFication == parseInt) {
+
+			System.out.println("Product price matched");
+
+			try {
+				driver.findElementByXPath("//div[@class='inside_closeButton fonticon icon-hclose']").click();
+			}
+			catch(NoSuchElementException e)
+			{
+
+			}
+
+			//driver.findElementByXPath("//div[@class='inside_closeButton fonticon icon-hclose']").click();
+
+			driver.findElement(By.xpath("(//span[text()='Proceed to Checkout'])[1]")).click();
+			Thread.sleep(4000);
+
+			driver.findElement(By.xpath("//div[@class='place-order-primary']//button[1]")).click();
+
+			System.out.println("Selected Place order button");
+
+			System.out.println("Warning message : " +driver.findElement(By.xpath("//span[text()='Please specify a payment method.']")).getText());
+
+		}
+
+		else {
+
+			System.out.println("No price match found");
+		}
+
+
+		driver.quit();
+
+		System.out.println("Run Successfull" );
+
+	}
+
+}
+
