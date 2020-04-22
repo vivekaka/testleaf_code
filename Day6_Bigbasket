@@ -105,6 +105,8 @@ public class Day6_Bigbasket {
 
 		System.out.println("Dhal added to the craft");
 
+		Thread.sleep(3000);
+
 		String successMsg = driver.findElementByXPath("//div[text()='Successfully added Ponni Boiled Rice - Super Premium 5 kg to the basket']").getText();
 
 		System.out.println(successMsg);
