@@ -1,1 +1,153 @@
 
+package twentyOneDayChallenge;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+
+public class Day6_Bigbasket {
+
+	public static void main(String[] args) throws InterruptedException {
+
+		System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
+
+		ChromeDriver driver = new ChromeDriver();
+
+		driver.get("https://www.bigbasket.com/");
+
+		driver.manage().window().maximize();
+
+		WebDriverWait wait = new WebDriverWait(driver, 20);
+
+		Actions action = new Actions(driver);
+
+		action.moveToElement(driver.findElement(By.xpath("//li[@class='dropdown full-wid hvr-drop']"))).build().perform();
+		Thread.sleep(2000);
+
+		System.out.println("Shop by category");
+
+		action.moveToElement(driver.findElement(By.xpath("(//a[text()='Foodgrains, Oil & Masala'])[2]"))).build().perform();
+		Thread.sleep(2000);
+
+		System.out.println("Foodgrains, Oil & Masala");
+
+		action.moveToElement(driver.findElementByXPath("(//li[@class='ng-scope']//a[text()='Rice & Rice Products'])[2]")).build().perform();
+		Thread.sleep(2000);
+
+		System.out.println("Rice & Rice Products");
+
+		action.moveToElement(driver.findElementByXPath("(//li[@class='ng-scope']//a[text()='Boiled & Steam Rice'])[2]")).click().build().perform();
+
+		System.out.println("Boiled & Steam Rice");
+
+		WebDriverWait waits = new WebDriverWait(driver, 20);
+
+		driver.findElementByXPath("//span[text()='bb Royal']").click();
+		Thread.sleep(3000);
+
+		System.out.println("bb Royal");
+
+		driver.findElementByXPath("//a[text()='Ponni Boiled Rice - Super Premium']/ancestor::div[@class='item prod-deck row ng-scope']//button[@class='btn btn-default dropdown-toggle form-control']").click();
+
+		driver.findElementByXPath("//a[text()='Ponni Boiled Rice - Super Premium']/ancestor::div[@class='item prod-deck row ng-scope']//ul[@class='dropdown-menu drop-select']//span[text()='5 kg']").click();
+
+		System.out.println("Slected 5kg in Ponni brand");
+
+		String ponniPrice = driver.findElementByXPath("//a[text()='Ponni Boiled Rice - Super Premium']/ancestor::div[@class='item prod-deck row ng-scope']//span[@class='discnt-price']").getText();
+
+		String replaceAll = ponniPrice.replaceAll("\\D", "");
+
+		int ponniAmt = Integer.parseInt(replaceAll);
+
+		System.out.println(ponniAmt);
+
+		driver.findElementByXPath("//a[text()='Ponni Boiled Rice - Super Premium']/ancestor::div[@class='item prod-deck row ng-scope']//button[contains(text(),'Add')]").click();
+		Thread.sleep(2000);
+
+		System.out.println("Added to the cart");
+
+		driver.findElement(By.xpath("(//a[@qa='continueBtn'])[1]")).click();
+
+		driver.findElementByXPath("//input[@placeholder='Search for Products..']").sendKeys("Dal", Keys.ENTER);
+		Thread.sleep(3000);
+
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
+		driver.findElementByXPath("//a[text()='Toor/Arhar Dal/Thuvaram Paruppu']/ancestor::div[@class='item prod-deck row ng-scope']//button[@class='btn btn-default dropdown-toggle form-control']").click();
+		Thread.sleep(3000);
+
+		driver.findElementByXPath("//a[text()='Toor/Arhar Dal/Thuvaram Paruppu']/ancestor::div[@class='item prod-deck row ng-scope']//ul//span[text()='2 kg']").click();
+		Thread.sleep(2000);
+
+		System.out.println("Selected 2Kg in Toor-Dhal");
+
+		WebElement element = driver.findElementByXPath("//a[text()='Toor/Arhar Dal/Thuvaram Paruppu']/ancestor::div[@class='item prod-deck row ng-scope']//input[@class='form-control ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-maxlength']");
+		element.clear();
+
+		element.sendKeys("2");
+
+		String Toordhal = driver.findElementByXPath("//a[text()='Toor/Arhar Dal/Thuvaram Paruppu']/ancestor::div[@class='item prod-deck row ng-scope']//span[@class='discnt-price']/span").getText();
+
+		String replaceAll2 = Toordhal.replaceAll("\\D", "");
+
+		int ToorDhalPrice = Integer.parseInt(replaceAll2);
+
+		System.out.println(ToorDhalPrice);
+
+		driver.findElementByXPath("(//button[@qa='add'])[6]").click();
+
+		driver.findElementByXPath("//a[text()='Toor/Arhar Dal/Thuvaram Paruppu']/ancestor::div[@class='item prod-deck row ng-scope']//button[contains(text(),'Add')]").click();
+
+		System.out.println("Dhal added to the craft");
+
+		String successMsg = driver.findElementByXPath("//div[text()='Successfully added Ponni Boiled Rice - Super Premium 5 kg to the basket']").getText();
+
+		System.out.println(successMsg);
+
+		action.moveToElement(driver.findElement(By.className("basket-content"))).build().perform();
+
+		System.out.println("Moved cusror over My Basket");
+
+		String subTotal = driver.findElementByXPath("//div[@class='row sub-cost ng-scope']//span[@class='ng-binding']").getText();
+
+		int Total = ponniAmt + (ToorDhalPrice * 2);
+
+		System.out.println("Sub Total : "+ subTotal);
+
+		System.out.println("Total : "+ Total);
+
+		int intSub = Integer.parseInt(subTotal.replaceAll("\\D", ""));
+
+		Assert.assertEquals(Total, intSub);
+
+		System.out.println("Total Matches");
+
+		driver.findElementByXPath("(//div[@class='btn-counter row']//button)[3]").click();
+
+		subTotal = driver.findElementByXPath("//div[@class='row sub-cost ng-scope']//p//span//span").getText();
+
+		Total = ponniAmt + ToorDhalPrice;
+
+		System.out.println("Sub total : "+ subTotal);
+
+		System.out.println("Total : "+ Total);
+
+		intSub = Integer.parseInt(subTotal.replaceAll("\\D", ""));
+
+		Assert.assertEquals(Total, intSub);
+
+		System.out.println("Total Mathes");
+
+		driver.close();
+
+
+	}
+
+
+}
