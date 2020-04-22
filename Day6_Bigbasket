@@ -1,4 +1,3 @@
-
 package twentyOneDayChallenge;
 
 import java.util.concurrent.TimeUnit;
@@ -38,7 +37,7 @@ public class Day6_Bigbasket {
 		System.out.println("Foodgrains, Oil & Masala");
 
 		action.moveToElement(driver.findElementByXPath("(//li[@class='ng-scope']//a[text()='Rice & Rice Products'])[2]")).build().perform();
-		Thread.sleep(2000);
+		Thread.sleep(4000);
 
 		System.out.println("Rice & Rice Products");
 
@@ -110,7 +109,7 @@ public class Day6_Bigbasket {
 
 		System.out.println(successMsg);
 
-		action.moveToElement(driver.findElement(By.className("basket-content"))).build().perform();
+		action.moveToElement(driver.findElementByXPath("//span[@class='basket-content']")).build().perform();
 
 		System.out.println("Moved cusror over My Basket");
 
