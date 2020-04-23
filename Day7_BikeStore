@@ -1,1 +1,174 @@
+package twentyOneDayChallenge;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
+
+public class Day7_BikeStore {
+
+	public static void main(String[] args) throws InterruptedException {
+
+		System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
+
+		ChromeDriver driver = new ChromeDriver();
+
+		driver.get(" https://www.honda2wheelersindia.com/");
+
+		driver.manage().window().maximize();
+
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
+		driver.findElementByXPath("//button[@class='close']").click();
+
+		driver.findElementByXPath("//a[text()='Scooter']").click();
+		Thread.sleep(2000);
+
+		System.out.println("Clicked Scooter");
+
+		driver.findElement(By.xpath("(//div[@class='item']//img)[4]")).click();
+
+		System.out.println("Clicked Dio bike");
+
+		driver.findElementByXPath("//a[text()='Specifications']").click();
+
+		System.out.println("Clicked Specifications for Dio");
+
+		Actions action = new Actions(driver);
+
+		action.moveToElement(driver.findElementByXPath("//a[text()='ENGINE']")).build().perform();
+		Thread.sleep(2000);
+
+		String displacementValue = driver.findElementByXPath("(//ul[@class='tab_content']//span[text()='109.51cc'])").getText();
+
+		System.out.println(displacementValue);
+
+		float DisplacementVal1 = Float.parseFloat(displacementValue.replaceAll("c", ""));
+
+		System.out.println(DisplacementVal1);
+
+		driver.findElement(By.id("link_Scooter")).click();
+
+		driver.findElement(By.xpath("(//div[@class='item']//img)[6]")).click();
+
+		System.out.println("Clicked Activa");
+
+		driver.findElementByXPath("//a[text()='Specifications']").click();
+
+		System.out.println("Clicked Specifications for Activa");
+
+		action.moveToElement(driver.findElementByXPath("//a[text()='ENGINE']")).build().perform();
+		Thread.sleep(4000);
+
+		String disValActiva = driver.findElementByXPath("(//ul[@class='tab_content']//span[text()='124 cc'])").getText();
+
+		System.out.println(disValActiva);
+
+		float DisplacementVal2= Float.parseFloat(displacementValue.replaceAll("c", ""));
+
+		System.out.println(DisplacementVal2);
+
+		if (DisplacementVal1 > DisplacementVal2) {
+			System.out.println("Dio has the greater Displacement");
+		}
+		else {
+			System.out.println("Activa has the greater Displacement");
+		}
+
+		driver.findElementByXPath("//a[text()='FAQ']").click();
+		Thread.sleep(4000);
+
+		System.out.println("Selected FAQ Link");
+
+		String textSelect = driver.findElementByXPath("//a[text()='Activa 125 BS-VI']").getText();
+
+		driver.findElementByXPath("//a[text()='Activa 125 BS-VI']").click();
+		Thread.sleep(2000);
+
+		System.out.println(textSelect);
+
+		driver.findElementByXPath("(//a[@data-toggle='tab']//i)[6]").click();
+		Thread.sleep(3000);
+
+		System.out.println("Clicked Vehicle Price");
+
+		String textSelect2 = driver.findElementByXPath("(//select[@id='ModelID6']//option)[4]").getText();
+
+		System.out.println(textSelect2);
+
+		if(textSelect.contains(textSelect2)) {
+
+			driver.findElementByXPath("(//button[text()='Submit'])[6]").click();
+			Thread.sleep(2000);
+
+			System.out.println("Clicked Submit Button");
+
+			driver.findElementByXPath("//a[text()='Click here to know the price of Activa 125 BS-VI.']").click();
+			Thread.sleep(2000);
+
+			System.out.println("To know the Price");
+
+			Set<String> windowHandles = driver.getWindowHandles();
+
+			List<String> newWindow = new ArrayList<String>(windowHandles);
+
+			WebDriver window1 = driver.switchTo().window(newWindow.get(1));
+
+			System.out.println("Moved to the new window");
+
+			WebElement drop = driver.findElementById("StateID");
+
+			Select dropDown = new Select(drop);
+
+			dropDown.selectByVisibleText("Tamil Nadu");
+			Thread.sleep(4000);
+
+			System.out.println("Selected State");
+
+			WebElement drop2 = driver.findElementById("CityID");
+
+			Select citySelect = new Select(drop2);
+
+			citySelect.selectByVisibleText("Chennai");
+
+			System.out.println("Selected City");
+
+			driver.findElementByXPath("//button[text()='Search']").click();
+			Thread.sleep(2000);
+
+			System.out.println("Submitted to know the Bike Price's");
+
+			WebElement table = driver.findElement(By.id("gvshow"));
+
+			List<WebElement> models = table.findElements(By.tagName("td"));
+
+			WebElement tables = driver.findElement(By.id("gvshow"));
+
+			List<WebElement> modelName = tables.findElements(By.tagName("td"));
+
+			for (WebElement modelNames : modelName) {
+
+				System.out.println(modelNames.getText());
+			}
+		}
+
+		else {
+
+			System.out.println("Submit Button isn't Clicked");
+		}
+
+		driver.quit();
+
+		System.out.println("Run Successful");
+
+	}
+
+}
 
