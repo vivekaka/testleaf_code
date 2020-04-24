@@ -1,4 +1,3 @@
-
 package twentyOneDayChallenge;
 
 import java.io.File;
@@ -16,7 +15,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import com.aventstack.extentreports.utils.FileUtil;
+
 
 public class Day8_Pepperfry {
 
@@ -132,24 +131,21 @@ public class Day8_Pepperfry {
 
 		System.out.println("Order has been placed");
 
-		driver.findElementByXPath("//div[@class='nCheckout__accrodian-header-right']//span").click();
-		Thread.sleep(4000);
-
-		WebElement scrnSht = driver.findElementByXPath("//img[contains(@src,'nakshatra')]");
-		
-		File screenshotAs = scrnSht.getScreenshotAs(OutputType.FILE);
-
-		File desT = new File("./nakshatra/img.jpg");
-
-		FileUtils.copyFile(screenshotAs, desT);
-
+		driver.findElementByXPath("//span[text()='ORDER SUMMARY']").click();
 		Thread.sleep(2000);
+
+		File src = driver.findElementByXPath("//div[@class='slick-list draggable']//li").getScreenshotAs(OutputType.FILE); 
+
+		File desT = new File("./nakshatra/image.jpg");
+
+		FileUtils.copyFile(src, desT);
 
 		System.out.println("Screenshot has been taken");
 
 		driver.close();
 
 		System.out.println("Run Successful");
+
 
 	}
 
