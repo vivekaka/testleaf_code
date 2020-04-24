@@ -1,1 +1,156 @@
 
+package twentyOneDayChallenge;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.UnexpectedAlertBehaviour;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.DesiredCapabilities;
+
+import com.aventstack.extentreports.utils.FileUtil;
+
+public class Day8_Pepperfry {
+
+	public static void main(String[] args) throws InterruptedException, IOException {
+
+
+		System.setProperty("webdriver.chrome.driver", "./postman/chromedriver.exe");
+
+		ChromeOptions options = new ChromeOptions();
+
+		options.addArguments("--disable-notifications");
+
+		DesiredCapabilities capab = new DesiredCapabilities();
+
+		capab.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.DISMISS);
+
+		options.merge(capab);
+
+		ChromeDriver driver = new ChromeDriver(options);
+
+		driver.get("https://www.pepperfry.com/");
+
+		driver.manage().window().maximize();
+
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
+		Actions action = new Actions(driver);
+
+		action.moveToElement(driver.findElementByXPath("//a[text()='Furniture']")).build().perform();
+		Thread.sleep(2000);
+
+		System.out.println("Mouse hovered to Furniture");
+
+		driver.findElementByXPath("//a[text()='Office Chairs']").click();
+		Thread.sleep(3000);
+
+		System.out.println("selected Office Chairs");
+
+		action.moveToElement(driver.findElementByXPath("//img[@alt='Executive Chairs']")).click().build().perform();
+		Thread.sleep(2000);
+
+		System.out.println("Clicked Executive Chairs");
+
+		action.moveToElement(driver.findElementByXPath("//img[@alt='High Back Executive Chairs']")).click().build().perform();
+		Thread.sleep(2000);
+
+		System.out.println("Clciked High Back Executive Chairs");
+
+		driver.findElementByXPath("//div[@class='clip__filter-dimension-input-holder']//input[@type='number']").clear();
+
+		System.out.println("Existing value has been cleared");
+
+		driver.findElementByXPath("//div[@class='clip__filter-dimension-input-holder']//input[@type='number']").sendKeys("50", Keys.ENTER);
+		Thread.sleep(2000);
+
+		System.out.println("Entered the value 50");
+
+		driver.findElementByXPath("//a[text()='Poise Executive Chair in Black Colour']//ancestor::div[@class='clip-crd-10x11 pf-white padding-2x1']//a[@id='clip_wishlist_']").click();
+		System.out.println("Chair added to the whishlist");
+
+		action.moveToElement(driver.findElementByXPath("//a[text()='Homeware']")).build().perform();
+		Thread.sleep(2000);
+
+		System.out.println("Mouse hovered to Homeware");
+
+		action.moveToElement(driver.findElementByXPath("//div[@class='hvr-col-listitem']//a[text()='Pressure Cookers']")).click().build().perform();
+		Thread.sleep(2000);
+
+		System.out.println("Cliked Pressure Cookers");
+
+		driver.findElementByXPath("//li[@data-search='Prestige']//label[@for='brandsnamePrestige']").click();
+		Thread.sleep(3000);
+
+		System.out.println("Checked Prestige Brand");
+
+		driver.findElementByXPath("//a[text()='Nakshatra Cute Metallic Red Aluminium Cooker 2 Ltr']//ancestor::div[@class='clip-crd-10x11 pf-white padding-2x1']//a[@id='clip_wishlist_']").click();
+		Thread.sleep(2000);
+
+		System.out.println("Cooker added to the wishlist");
+
+		String text = driver.findElementByXPath("//div[@class='wishlist_bar']//span[@class='count_alert']").getText();
+
+		String replaceAll = text.replaceAll("\\D", "");
+
+		int wishListCount = Integer.parseInt(replaceAll);
+
+		System.out.println("Whishlist count : "+ wishListCount );
+
+		driver.findElementByXPath("//a[@data-tooltip='Wishlist']").click();
+		Thread.sleep(2000);
+
+		System.out.println("Clicked WishList");
+
+		driver.findElementByXPath("//a[text()='Nakshatra Cute Metallic Red Aluminium Cooker 2 Ltr By...']//ancestor::div[@class='item_card_wrapper']//a[@unbxdattr='AddToCart']").click();
+		Thread.sleep(2000);
+
+		System.out.println("Added cooker to the cart");
+
+		driver.findElementByXPath("//div[@class='pin_block']//input").sendKeys("600128");
+
+		driver.findElementByClassName("check_available").click();
+		Thread.sleep(2000);
+
+		System.out.println("Checked the availability");
+
+		driver.findElementByXPath("//a[text()='Proceed to pay securely ']").click();
+		Thread.sleep(3000);
+
+		System.out.println("Clicked Proceed to pay");
+
+		driver.findElementByXPath("//a[text()='PLACE ORDER']").click();
+		Thread.sleep(2000);
+
+		System.out.println("Order has been placed");
+
+		driver.findElementByXPath("//div[@class='nCheckout__accrodian-header-right']//span").click();
+		Thread.sleep(10000);
+
+		WebElement scrnSht = driver.findElementByXPath("//img[contains(@src,'nakshatra')]");
+		
+		File screenshotAs = scrnSht.getScreenshotAs(OutputType.FILE);
+
+		File desT = new File("./nakshatra/img.jpg");
+
+		FileUtils.copyFile(screenshotAs, desT);
+
+		Thread.sleep(2000);
+
+		System.out.println("Screenshot has been taken");
+
+		driver.close();
+
+		System.out.println("Run Successful");
+
+	}
+
+}
