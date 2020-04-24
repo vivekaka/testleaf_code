@@ -133,7 +133,7 @@ public class Day8_Pepperfry {
 		System.out.println("Order has been placed");
 
 		driver.findElementByXPath("//div[@class='nCheckout__accrodian-header-right']//span").click();
-		Thread.sleep(10000);
+		Thread.sleep(4000);
 
 		WebElement scrnSht = driver.findElementByXPath("//img[contains(@src,'nakshatra')]");
 		
