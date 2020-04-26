@@ -1,1 +1,197 @@
+package twentyOneDayChallenge;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
+
+public class Day9_demoCRM {
+
+	public static void main(String[] args) throws InterruptedException {
+
+
+		System.setProperty("webdriver.chrome.driver", "./postman/chromedriver.exe");
+
+		ChromeDriver driver = new ChromeDriver();
+
+		driver.get("https://demo.1crmcloud.com/");
+
+		driver.manage().window().maximize();
+
+		System.out.println("Browser Opened");
+
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
+		driver.findElement(By.id("login_user")).sendKeys("admin");
+
+		driver.findElementByXPath("//div[@class='input-field input-field-group input-block']//input[@name='user_password']").sendKeys("admin", Keys.TAB);
+
+		WebElement selectTheme = driver.findElementById("login_theme");
+
+		Select dropDown = new Select(selectTheme);
+
+		dropDown.selectByVisibleText("Claro Theme");
+
+		Thread.sleep(2000);
+
+		driver.findElementByXPath("//button[@id='login_button']//span[text()='Login']").click();
+		Thread.sleep(3000);
+
+		System.out.println("Logged in");
+
+		Actions action = new Actions(driver);
+		
+				action.moveToElement(driver.findElementByXPath("//a[@class='menubar-link']//div[text()='Sales & Marketing']")).click().build().perform();
+		
+				System.out.println("Mouse clicked on Sales & Marketing");
+		
+				driver.findElementByXPath("//div[text()='Create Contact']").click();
+				Thread.sleep(2000);
+		
+				System.out.println("Tapped on Account Creation Button");
+				Thread.sleep(4000);
+		
+				driver.findElementByXPath("//div[@id='DetailFormsalutation-input']").click();
+				Thread.sleep(2000);
+		
+				driver.findElementByXPath("//div[text()='Mr.']").click();
+		
+				driver.findElementByXPath("//input[@class='input-text']").sendKeys("Karthick", Keys.TAB);
+		
+				driver.findElementByXPath("//input[@name='last_name']").sendKeys("vivek", Keys.TAB);
+		
+				System.out.println("Name is entered");
+		
+				driver.findElementByXPath("//input[@type='email']").sendKeys("Karthickviv2k@hotmail.com", Keys.TAB);
+		
+				System.out.println("MAILID Entered");
+		
+				driver.findElementByXPath("//input[@name='phone_work']").sendKeys("9600525900", Keys.TAB);
+		
+				System.out.println("Mobile number entered");
+		
+				action.moveToElement(driver.findElementByXPath("(//div[@class='input-field input-field-group rbullet'])[2]")).click().build().perform();
+		
+				driver.findElement(By.xpath("//div[text()='Public Relations']")).click();
+				Thread.sleep(3000);
+		
+				System.out.println("Selected Public Relation from Drop down");
+		
+				driver.findElementById("DetailFormbusiness_role-input").click();
+				Thread.sleep(2000);
+		
+				driver.findElementByXPath("//div[text()='Sales']").click();
+		
+				driver.findElementByXPath("//textarea[@name='primary_address_street']").sendKeys("No:74 Dubai Main Road, Ch-28", Keys.TAB);
+		
+				System.out.println("Entered Address");
+		
+				driver.findElementByXPath("//input[@id='DetailFormprimary_address_city-input']").sendKeys("Chennai", Keys.TAB);
+		
+				System.out.println("Selected City");
+		
+				driver.findElementByXPath("//input[@id='DetailFormprimary_address_state-input']").sendKeys("TamilNadu", Keys.TAB);
+		
+				System.out.println("Selected State");
+		
+				driver.findElementByXPath("//input[@id='DetailFormprimary_address_country-input']").sendKeys("India", Keys.TAB);
+		
+				System.out.println("Selected Country");
+		
+				driver.findElementByXPath("//input[@id='DetailFormprimary_address_postalcode-input']").sendKeys("600028");
+				Thread.sleep(3000);
+		
+				System.out.println("Entered PostalCode");
+		
+				driver.findElementById("DetailForm_save2").click();
+				Thread.sleep(2000);
+				
+				System.out.println("***Saved the contact successfully***");
+				
+				action.moveToElement(driver.findElementByXPath("//a[@class='menubar-link']//div")).build().perform();
+				Thread.sleep(2000);
+		
+				System.out.println("Hovered to Today's Activities");
+		
+				driver.findElement(By.xpath("//div[text()='Meetings']")).click();
+				Thread.sleep(3000);
+		
+				driver.findElementByXPath("(//button[@class='input-button first'])[1]").click();
+				Thread.sleep(2000);
+		
+				driver.findElementById("DetailFormname-input").sendKeys("Project Status");
+		
+				driver.findElementById("DetailFormstatus-input").click();
+				Thread.sleep(2000);
+		
+				driver.findElement(By.xpath("(//div[text()='Planned'])[2]")).click();
+		
+				driver.findElementById("DetailFormdate_start-input").click();
+				Thread.sleep(2000);
+		
+				driver.findElementByXPath("(//div[@class='grid-row number-row'])[5]//div[text()='27']").click();
+				Thread.sleep(2000);
+		
+				driver.findElementByXPath("(//input[@class='input-text'])[4]").clear();
+		
+				driver.findElementByXPath("(//input[@class='input-text'])[4]").sendKeys("15:00");
+		
+				driver.findElementByXPath("//div[@class='active-icon uii-accept uii-lg uii']").click();
+				Thread.sleep(2000);
+		
+				System.out.println("Selected Meeting StartDate & Time ");
+		
+				driver.findElementById("DetailFormduration-time").clear();
+		
+				driver.findElementById("DetailFormduration-time").sendKeys("1h 00m", Keys.TAB);
+		
+				System.out.println("Time Duration Added");
+		
+				driver.findElementByXPath("//button[@name='addInvitee']").click();
+				Thread.sleep(3000);
+		
+				driver.findElementByXPath("//div[text()='Karthick vivek']").click();
+				Thread.sleep(2000);
+		
+				driver.findElementByXPath("//span[@id='DetailForm_save2-label']").click();
+				Thread.sleep(2000);
+				System.out.println("**Meeting Saved Successfully***");
+
+		action.moveToElement(driver.findElementByXPath("//a[@class='menubar-link']//div[text()='Sales & Marketing']")).build().perform();
+		Thread.sleep(2000);
+
+		driver.findElementByXPath("//div[text()='Contacts']").click();
+		Thread.sleep(2000);
+
+		driver.findElementByXPath("//input[@id='filter_text']").sendKeys("Karthick vivek");
+		Thread.sleep(2000);
+
+		driver.findElementByXPath("//div[@class='menu-option single']//div[text()='Mr. Karthick vivek']").click();
+
+		System.out.println("Search found for the name Karthick vivek");
+
+		String meetingText = driver.findElementByXPath("//a[text()='Project Status']").getText();
+
+		System.out.println(meetingText);
+
+
+		if(meetingText.contains("Project Status")){
+
+			System.out.println("Yes, meeting is assigned");
+
+		}
+		else {
+
+			System.out.println("Sorry, meeting isn't assigned");
+		}
+
+		driver.close();
+
+	}
+
+}
 
