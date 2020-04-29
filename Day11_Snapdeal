@@ -1,1 +1,181 @@
+package twentyOneDayChallenge;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class Day11_SnapDeal {
+
+	public static void main(String[] args) throws InterruptedException {
+
+
+		System.setProperty("webdriver.chrome.driver", "./postman/chromedriver.exe");
+
+		ChromeDriver driver = new ChromeDriver();
+
+		driver.get("https://www.snapdeal.com/");
+
+		driver.manage().window().maximize();
+
+		System.out.println("Browser Opened");
+
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
+		Actions action = new Actions(driver);
+
+		action.moveToElement(driver.findElementByXPath("//span[contains(text(),'Toys, Kids')]")).build().perform();
+		Thread.sleep(2000);
+
+		System.out.println("Hovered to Toys & Kids Sextion");
+
+		driver.findElementByXPath("//span[contains(text(),'Educational Toys')]").click();
+		Thread.sleep(2000);
+
+		System.out.println("Selected Educational Toys button");
+
+		driver.findElementByXPath("//div[@class='filters-list sdRadio  ']//label[@for='avgRating-4.0']").click();
+		Thread.sleep(4000);
+
+		System.out.println("Filter 1 applied");
+
+		driver.findElementByXPath("//div[@class='sdCheckbox filters-list ']//label[@for='discount-40%20-%2050']").click();
+		Thread.sleep(2000);
+
+		System.out.println("Filter 2 applied");
+
+		driver.findElementByXPath("//div[@class='pincode-enter js-pincode-enter']//input[@placeholder='Enter your pincode']").sendKeys("600028", Keys.TAB);
+
+		driver.findElementByXPath("//div[@class='pincode-enter js-pincode-enter']//button[text()='Check']").click();
+		Thread.sleep(2000);
+
+		action.moveToElement(driver.findElementByXPath("(//img[@class='product-image wooble']//ancestor::div[@class='product-tuple-image ']//div[@class='clearfix row-disc'])[1]")).click().build().perform();
+		Thread.sleep(2000);
+
+		driver.findElementByXPath("(//a[contains(@class,'btn btn-theme-secondary')])[1]").click();
+
+		String tabLET = driver.findElementByXPath("//span[@class='pdp-final-price']//span").getText();
+
+		String replaceAll = tabLET.replaceAll("\\D", "");
+
+		int tabletPrice = Integer.parseInt(replaceAll);
+
+		System.out.println("The price of the Tablet is :"+ tabletPrice);
+
+		String extraCharge = driver.findElementByXPath("(//span[@class='availCharges'])[2]").getText();
+
+		String replaceAll2 = extraCharge.replaceAll("\\D", "");
+
+		int additionalCharge = Integer.parseInt(replaceAll2);
+
+		System.out.println("Transportation charge is :"+ additionalCharge);
+
+		driver.findElementByXPath("//div[contains(@class,'col-xs-6 marR15 btn btn-xl')]//span[text()='add to cart']").click();
+		Thread.sleep(2000);
+
+		System.out.println("Tablet added to the Cart");
+
+		String totalAmt = driver.findElementByXPath("//div[@class='you-pay']//span[@class='price']").getText();
+
+		String replaceAll3 = totalAmt.replaceAll("\\D", "");
+
+		int grandTotal = Integer.parseInt(replaceAll3);
+
+		System.out.println("The grand total is :"+ grandTotal);
+
+		if (tabletPrice + additionalCharge == grandTotal) {
+
+
+			System.out.println("Product price amount matches");
+		}
+
+		else {
+
+			System.out.println("Product price doesn't match");
+		}
+
+		driver.findElement(By.id("inputValEnter")).sendKeys("Sanitizer", Keys.ENTER);
+		Thread.sleep(3000);
+
+		System.out.println("Searched for Sanitizer");
+
+		action.moveToElement(driver.findElementByXPath("(//div[contains(@class,'col-xs-6')]//ancestor::div[@class='product-tuple-image ']//div[@class='clearfix row-disc'])[1]")).click().build().perform();
+		Thread.sleep(2000);
+
+		driver.findElementByXPath("(//a[contains(@class,'btn btn-theme-secondary')])[1]").click();
+
+		String santiZER = driver.findElementByXPath("//span[@class='pdp-final-price']//span").getText();
+
+		String replaceAlls = santiZER.replaceAll("\\D", "");
+
+		int santizerAmt = Integer.parseInt(replaceAlls);
+
+		System.out.println("The price of the Santizer is :"+ santizerAmt);
+
+		String transAmt = driver.findElementByXPath("(//span[@class='availCharges'])[2]").getText();
+
+		String replaceAlls2 = transAmt.replaceAll("\\D", "");
+
+		int transportCharge = Integer.parseInt(replaceAlls2);
+
+		System.out.println("Transportation charge is :"+ transportCharge);
+
+		driver.findElementByClassName("adroll_consent_button").click();
+
+		driver.findElementByXPath("//div[@title='ADD TO CART']//span[text()='ADD TO CART']").click();
+		Thread.sleep(2000);
+
+		System.out.println("Sanitizer added to the Cart");
+
+		driver.findElementByXPath("//div[@class='cartInner']//span[text()='Cart']").click();
+		Thread.sleep(3000);
+
+		System.out.println("Tapped on the Cart");
+
+		String totalCharge = driver.findElementByXPath("(//div[@class='cart-collapsed']//span[@class='item-subtotal-black'])[2]").getText();
+
+		String replaceAlls3 = totalCharge.replaceAll("\\D", "");
+
+		int grandTotal2 = Integer.parseInt(replaceAlls3);
+
+		System.out.println("The grand total for second product is :"+ grandTotal2);
+
+		if (santizerAmt + transportCharge == grandTotal2) {
+
+
+			System.out.println("Second Product price amount matches");
+		}
+
+		else {
+
+			System.out.println("Product price doesn't match");
+		}
+		Thread.sleep(3000);
+		String allTotal = driver.findElementByXPath("//input[@type='button']").getAttribute("value");
+
+		String replaceAll4 = allTotal.replaceAll("\\D", "");
+
+		int totalOf2Prduct = Integer.parseInt(replaceAll4);
+
+		System.out.println("The total of two product is :"+ totalOf2Prduct);
+
+
+		if(grandTotal + grandTotal2 == totalOf2Prduct) {
+
+			System.out.println("Total product price matches");
+		}
+
+		else {
+
+			System.out.println("Total product price doesn't match");
+		}
+
+		driver.close();
+
+		System.out.println("***Run successful***");
+	}
+
+}
 
