@@ -1,0 +1,200 @@
+package twentyOneDayChallenge;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class Day12Carwale {
+
+	public static void main(String[] args) throws InterruptedException {
+
+
+		System.setProperty("webdriver.chrome.driver", "./postman/chromedriver.exe");
+
+		ChromeDriver driver = new ChromeDriver();
+
+		driver.get("https://www.carwale.com/");
+
+		driver.manage().window().maximize();
+
+		WebDriverWait wait = new WebDriverWait(driver, 20);
+
+		driver.findElementByXPath("//li[@data-tabs='usedCars']").click();
+		Thread.sleep(2000);
+
+		System.out.println("Selected Used Car");
+
+		wait.until(ExpectedConditions.elementToBeClickable(driver.findElementById("usedCarsList")));
+
+		driver.findElementById("usedCarsList").sendKeys("Chennai");
+		Thread.sleep(2000);
+
+		driver.findElementByXPath("//a[@cityname='chennai,tamilnadu']").click();
+		Thread.sleep(2000);
+
+		System.out.println("Entered the city name");
+
+		wait.until(ExpectedConditions.visibilityOf(driver.findElementById("minInput")));
+
+		driver.findElementById("minInput").sendKeys("8",Keys.TAB);
+		Thread.sleep(2000);
+
+		wait.until(ExpectedConditions.visibilityOf(driver.findElementById("maxInput")));
+
+		driver.findElementById("maxInput").sendKeys("12",Keys.TAB);
+
+		driver.findElementById("btnFindCar").click();
+
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
+		driver.findElementByXPath("//span[text()='Cars with Photos']").click();
+		Thread.sleep(2000);
+
+		System.out.println("Filter 1 applied");
+
+
+
+		WebElement Hyundai = driver.findElementByXPath("//ul[@id='makesList']//li[@data-manufacture-en='Hyundai']");
+
+		JavascriptExecutor executor = (JavascriptExecutor)driver;
+		executor.executeScript("arguments[0].scrollIntoView();", Hyundai);
+		executor.executeScript("arguments[0].click();", Hyundai);
+
+		WebElement Creta = driver.findElementByXPath("//ul[@class='rootUl']//span[text()='Creta']");
+		Thread.sleep(3000);
+
+		executor.executeScript("arguments[0].scrollIntoView();", Creta);
+		executor.executeScript("arguments[0].click();", Creta);
+
+		System.out.println("Filter 2 applied");
+
+		WebElement FuelType = driver.findElementByXPath("//h3[contains(text(),'Fuel Type')]");
+
+		executor.executeScript("arguments[0].scrollIntoView();", FuelType);
+		executor.executeScript("arguments[0].click();", FuelType);
+
+		WebElement Petrol = driver.findElementByXPath("//li[@class='us-sprite']//span[text()='Petrol']");
+
+
+		executor.executeScript("arguments[0].scrollIntoView();", Petrol);
+		executor.executeScript("arguments[0].click();", Petrol);
+
+		System.out.println("Filter 3 applied");
+
+		WebElement Filter = driver.findElement(By.id("sort")); 
+
+		Select dropDown = new Select(Filter);
+
+		dropDown.selectByVisibleText("KM: Low to High");
+		Thread.sleep(2000);
+
+		Map<Integer,String> leastKMSmap =new LinkedHashMap<Integer,String>();
+
+		List<WebElement> kmsRan = driver.findElementsByXPath("//span[@class='slkms vehicle-data__item']");
+
+		List<Integer> IntgrinKms = new ArrayList<Integer>();
+
+		for (int i = 0; i < kmsRan.size(); i++) {
+
+			String kmsText = kmsRan.get(i).getText();
+
+			String replaceAll = kmsText.replaceAll("\\D", "");
+
+			int KMS = Integer.parseInt(replaceAll);
+
+			IntgrinKms.add(KMS);
+
+			leastKMSmap.put(KMS, kmsText);
+
+		}
+
+		List<Integer> SortedVehcle = new ArrayList<Integer>(IntgrinKms);
+
+		Collections.sort(SortedVehcle);
+
+		if (IntgrinKms.equals(SortedVehcle)) {
+
+			System.out.println("Vehicle's are sorted by KM");
+		}
+		else {
+
+			System.out.println("Vehicle's aren't sorted by KM");
+		}
+
+		Integer leastKM = SortedVehcle.get(0);
+
+		String strLeastKM = "";
+
+		for (Entry<Integer, String> eachEntry : leastKMSmap.entrySet())
+		{
+			if(eachEntry.getKey().equals(leastKM))
+			{
+				strLeastKM = eachEntry.getValue();
+			}
+		}
+		System.out.println("Least KM utilised by Hyundai Creta car: "+strLeastKM);
+		Thread.sleep(1000);
+
+		WebElement eleCarWishlist = driver.findElementByXPath("(//span[text()='"+strLeastKM+"']//ancestor::div[@class='stock-detail']//span[contains(@class,'shortlist')])[2]");
+		executor.executeScript("arguments[0].click();", eleCarWishlist);
+		Thread.sleep(2000);
+
+		driver.findElementByXPath("//li[@data-action='ShortList&CompareWindow_Click']").click();
+		Thread.sleep(2000);
+
+		String carWithLeastKM = driver.findElementByXPath("//a[@data-action='ShortListedCar_Click']/span").getText();
+
+		System.out.println("Car which is a least KM: "+ carWithLeastKM);
+
+		driver.findElementByXPath("//a[text()='More details »']").click();
+		Thread.sleep(3000);
+
+
+		Set<String> newWindow = driver.getWindowHandles();
+
+		List<String> WindowHandles = new ArrayList<String>(newWindow);
+
+		driver.switchTo().window(WindowHandles.get(1));
+
+		Map<String,String> carDeets=new LinkedHashMap<String,String>();
+
+		List<WebElement> eleDes = driver.findElementsByXPath("//div[contains(@class,'overview-list')]//div[contains(@class,'text-light-grey')]");
+
+		List<WebElement> eleValu = driver.findElementsByXPath("//div[contains(@class,'dark-text')]");
+
+		for(int i=0;i<eleDes.size();i++)
+
+		{
+			String str = eleDes.get(i).getText();
+
+			String str2 = eleValu.get(i).getText();
+
+			carDeets.put(str, str2);
+		}
+
+		for (Entry<String, String> eachVal : carDeets.entrySet())
+
+		{
+			System.out.println(eachVal.getKey()+ "----> " +eachVal.getValue());
+		}
+
+
+		driver.quit();
+	}
+
+}
