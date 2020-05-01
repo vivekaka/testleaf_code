@@ -1,0 +1,138 @@
+package twentyOneDayChallenge;
+
+import java.util.List;
+
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class Day13_Shiksha {
+
+	public static void main(String[] args) throws InterruptedException {
+
+		System.setProperty("webdriver.chrome.driver", "./postman/chromedriver.exe");
+
+		ChromeDriver driver = new ChromeDriver();
+
+		driver.get("https://studyabroad.shiksha.com/");
+
+		driver.manage().window().maximize();
+
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+
+		Actions action = new Actions(driver);
+
+		WebElement mouseOver = driver.findElementByXPath("//label[text()='Colleges ']");
+
+		action.moveToElement(mouseOver).build().perform();
+		Thread.sleep(1000);
+
+		System.out.println("Mouse hovered");
+
+		WebElement cliCK = driver.findElementByXPath("//a[text()='MS in Computer Science &Engg']");
+
+		action.moveToElement(cliCK).click().build().perform();
+
+		System.out.println("Tapped on MS Colleges button");
+
+		driver.findElementByClassName("cookAgr-btn").click();
+		Thread.sleep(2000);
+
+		System.out.println("Cookies have been accepted");
+
+		driver.findElementByXPath("//label[@class='exam-col-chkbx flLt']//span[@class='common-sprite']").click();
+		Thread.sleep(1000);
+
+		System.out.println("Selected Exam Accepted");
+
+		WebElement marksFilter = driver.findElementByXPath("//div[@class='filter-dropdown flLt']//select[@class='score-select-field']");
+
+		Select dropDown = new Select(marksFilter);
+
+		dropDown.selectByVisibleText("300 & below");
+		Thread.sleep(2000);
+
+		System.out.println("Mark's selected");
+
+		driver.findElementByXPath("(//label//span[@class='common-sprite'])[37]").click();
+		Thread.sleep(1000);
+
+		System.out.println("1st Year Total Fees");
+
+		driver.findElementByXPath("(//label//span[@class='common-sprite'])[50]").click();
+		Thread.sleep(2000);
+
+		System.out.println("Selected Country");
+
+		WebElement Filter = driver.findElementById("categorySorter");
+
+		Select dropDown2 = new Select(Filter);
+
+		dropDown2.selectByVisibleText("Low to high 1st year total fees");
+		Thread.sleep(2000);
+
+		System.out.println("Filter have been applied");
+
+		driver.findElementByXPath("(//span[@class='common-sprite'])[77]").click();
+		Thread.sleep(2000);
+
+		System.out.println("Added to compare");
+
+		driver.findElementByXPath("//a[text()=' Texas Southern University']").click();
+
+		driver.findElementByXPath("//div[@id='compareCourseBottomLayer']//a[@class='button-style']").click();
+		Thread.sleep(2000);
+
+		System.out.println("Tapped on compare button");
+
+		driver.findElementByXPath("//label[@for='year1']//span[@class='common-sprite']").click();
+
+		System.out.println("Selected the year of study");
+
+		action.moveToElement(driver.findElementByXPath("//div[contains(@class,'sp-frm selectCountryField')]//div[text()='Preferred Countries']")).click().build().perform();
+
+		driver.findElementByXPath("(//label[@class='nolnht']//span[@class='common-sprite'])[1]").click();
+
+		driver.findElementByXPath("//div[@class='choose-count']//a[text()='ok']").click();
+		Thread.sleep(2000);
+
+		System.out.println("Selected Preferred country");
+
+		driver.findElementByXPath("//label[contains(@for,'Masters')]//span[@class='common-sprite']").click();
+
+		action.moveToElement(driver.findElementByXPath("//div[contains(@class,'signUp-child-wrap')]//div[text()='Preferred Course']")).click().build().perform();
+
+		action.moveToElement(driver.findElementByXPath("//ul//li[text()='MS']")).click().build().perform();
+		Thread.sleep(2000);
+
+		action.moveToElement(driver.findElementByXPath("(//div[@class='placeholder'])[3]")).click().build().perform();
+
+		action.moveToElement(driver.findElementByXPath("//li[text()='Computer Science & Engineering']")).click().build().perform();
+		Thread.sleep(2000);
+
+		driver.findElementByXPath("//div[@class='sp-btn']//a[contains(text(),'Sign Up')]").click();
+
+		System.out.println("Tapped on Sign Up button");
+
+		List<WebElement> errorMSG = driver.findElementsByXPath("//div[contains(@id,'error')]/div[@class='helper-text' and contains(text(),'Please')]");
+
+		System.out.println("The error messages are displayed below");
+
+		for (int i = 0; i < errorMSG.size(); i++) {
+
+			String Errortext = errorMSG.get(i).getText();
+			
+			if(Errortext.length()>0) {
+
+			System.out.println(Errortext);
+			
+			}
+		}
+
+		driver.close();
+	}
+
+}
