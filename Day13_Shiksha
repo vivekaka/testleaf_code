@@ -39,7 +39,7 @@ public class Day13_Shiksha {
 		System.out.println("Tapped on MS Colleges button");
 
 		driver.findElementByClassName("cookAgr-btn").click();
-		Thread.sleep(2000);
+		Thread.sleep(3000);
 
 		System.out.println("Cookies have been accepted");
 
@@ -117,22 +117,25 @@ public class Day13_Shiksha {
 
 		System.out.println("Tapped on Sign Up button");
 
-		List<WebElement> errorMSG = driver.findElementsByXPath("//div[contains(@id,'error')]/div[@class='helper-text' and contains(text(),'Please')]");
+		List<WebElement> errorMSG = driver.findElementsByXPath("//div[@class='helper-text' and starts-with(text(),'Please')]");
 
-		System.out.println("The error messages are displayed below");
+		System.out.println("The error messages are displayed below :");
+		
+		System.out.println("-------------------------------");
 
-		for (int i = 0; i < errorMSG.size(); i++) {
-
-			String Errortext = errorMSG.get(i).getText();
-			
-			if(Errortext.length()>0) {
-
-			System.out.println(Errortext);
-			
-			}
+		for (WebElement errorMessage : errorMSG) 
+		{
+			{
+				if(errorMessage.getText().length()>0) 
+				{
+					System.out.println(errorMessage.getText());
+				}
 		}
-
+			
+		}
+		
 		driver.close();
 	}
 
 }
+	
