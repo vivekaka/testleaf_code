@@ -1,0 +1,174 @@
+package twentyOneDayChallenge;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class Day14_Zalando {
+
+	public static void main(String [] args) throws InterruptedException {
+
+		System.setProperty("webdriver.chrome.driver", "./postman/chromedriver.exe");
+
+		ChromeDriver driver = new ChromeDriver();
+
+		driver.get("https://www.zalando.co.uk/faq/Delivery/Do-delivery-and-returns-cost-anything.html");
+
+		driver.manage().window().maximize();
+
+		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+
+		Alert alert = driver.switchTo().alert();
+
+		String alertText = alert.getText();
+
+		System.out.println("Alert text : "+ alertText);
+
+		alert.accept();
+
+		System.out.println("Alert has been accepted");
+
+		Actions action = new Actions(driver);
+
+		WebElement zalandoUK = driver.findElementByXPath("//a[text()='Zalando.uk']");
+
+		action.moveToElement(zalandoUK).click().build().perform();
+		Thread.sleep(4000);
+
+		System.out.println("Moved to Zalando.UK Site");
+
+		try {
+
+			driver.findElementByXPath("//button[contains(@class,'uc-btn-primary')]").click();
+
+			System.out.println("Cookies have been accepted");
+		}
+
+		catch (NoSuchElementException e) {
+
+		}
+
+		action.moveToElement(driver.findElementByXPath("//a[@class='z-navicat-header_gender']//span[text()='Women']")).click().build().perform();
+
+		System.out.println("Clicked Women button");
+
+		action.moveToElement(driver.findElementByXPath("//a[@class='z-navicat-header_categoryListLink']//span[text()='Clothing']")).build().perform();
+		Thread.sleep(2000);
+
+		driver.findElementByXPath("//span[text()='Coats']").click();
+
+		System.out.println("Clicked Coats button");
+
+		action.moveToElement(driver.findElementByXPath("//button[@aria-label='filter by Material']//span[text()='Material']")).click().build().perform();
+
+		action.moveToElement(driver.findElementByXPath("//li[@role='checkbox']//span[text()='cotton (100%)']")).click().build().perform();
+
+		driver.findElementByXPath("//button[text()='Save']").click();
+		Thread.sleep(2000);
+
+		System.out.println("First filter applied");
+
+		action.moveToElement(driver.findElementByXPath("//button[@aria-label='filter by Length']//span[text()='Length']")).click().build().perform();
+
+		action.moveToElement(driver.findElementByXPath("//li[@role='checkbox']//span[text()='thigh-length']")).click().build().perform();
+
+		driver.findElementByXPath("//button[text()='Save']").click();
+		Thread.sleep(2000);
+
+		System.out.println("Second filter applied");
+
+		driver.findElementByXPath("//img[@alt='MANTEL - Parka - navy']").click();
+		Thread.sleep(2000);
+
+		driver.findElementByXPath("(//img[@alt='olive'])[2]").click();
+
+		String oliVE = driver.findElementByXPath("//h2[text()='Out of stock']").getText();
+
+		if(oliVE.contains("Out of stock")) {
+
+			driver.findElementByXPath("(//img[@alt='navy'])[2]").click();
+			Thread.sleep(2000);
+
+			action.moveToElement(driver.findElementByXPath("//button[@aria-label='Choose your size']//span[text()='Choose your size']")).click().build().perform();
+
+			action.moveToElement(driver.findElementByXPath("//span[text()='M']")).click().build().perform();
+
+			System.out.println("Selected Size");
+
+		}
+
+		String textFree = driver.findElementByXPath("(//button[@aria-label='Free']//span)[1]").getText();
+
+		if(textFree.contains("Free")) {
+
+			driver.findElementByXPath("//button[@aria-label='Add to bag']//span[text()='Add to bag']").click();
+			Thread.sleep(2000);
+
+			System.out.println("Added to the bag");
+		}
+
+		action.moveToElement(driver.findElementByXPath("//a[@class='z-navicat-header_navToolItemLink']")).build().perform();
+		Thread.sleep(2000);
+
+		System.out.println("Hoverd to Add to bag");
+
+		driver.findElementByXPath("//div[text()='Go to bag']").click();
+		Thread.sleep(2000);
+
+		String DT = driver.findElementByXPath("//div[@data-id='delivery-estimation']//span").getText();
+
+		System.out.println("The estimated date and time is :"+ DT);
+
+		action.moveToElement(driver.findElementByXPath("//a[text()='Free delivery & returns*']")).click().build().perform();
+		Thread.sleep(4000);
+
+		System.out.println("Free delivery & returns");
+
+	WebDriverWait wait = new WebDriverWait(driver, 20);
+
+		wait.until(ExpectedConditions.visibilityOf(driver.findElementByXPath("//span[text()='Start chat']")));
+		
+		Thread.sleep(2000);
+
+		driver.findElementByXPath("//span[text()='Start chat']").click();
+
+		Set<String> windowHandles = driver.getWindowHandles();
+
+		List<String> lstwindowHandles = new ArrayList(windowHandles);
+
+		driver.switchTo().window(lstwindowHandles.get(1));
+
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
+		System.out.println("Moved to the new window");
+
+		driver.findElementById("prechat_customer_name_id").sendKeys("vivekaka", Keys.TAB);
+
+		driver.findElementById("prechat_customer_email_id").sendKeys("otango@gmail.com", Keys.TAB);
+
+		driver.findElementById("prechat_submit").click();
+		Thread.sleep(3000);
+
+		driver.findElementByXPath("//textarea[@class='liveAgentChatTextArea']").sendKeys("Hi", Keys.ENTER);
+
+		String replyFrombot = driver.findElementByXPath("//span[@class='operator']//span[contains(text(),'Hi there! How')]").getText();
+
+		System.out.println("Bot reply is : "+replyFrombot);
+
+		driver.close();
+
+		System.out.println("***Run successfull***");
+
+	}
+
+}
