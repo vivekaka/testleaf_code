@@ -10,7 +10,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class ProjectDaySel90 {
 
@@ -96,6 +98,9 @@ public class ProjectDaySel90 {
 			System.out.println("Offer is not applicable");
 		}
 
+		WebDriverWait wait = new WebDriverWait(driver, 20);
+		
+		wait.until(ExpectedConditions.visibilityOf(driver.findElementByXPath("//span[text()='Enter pin-code to know estimated delivery date.']")));
 
 		driver.findElement(By.xpath("//span[text()='Enter pin-code to know estimated delivery date.']")).click();
 
@@ -149,6 +154,9 @@ public class ProjectDaySel90 {
 		driver.quit();
 
 		System.out.println("***Run Successfull***");
+
+
+
 
 	}
 
