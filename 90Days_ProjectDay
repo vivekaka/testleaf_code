@@ -125,7 +125,7 @@ public class ProjectDaySel90 {
 		System.out.println("Added to the BAG");
 
 		wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("//div[text()='PROCEED TO BAG']")));
-		
+
 		driver.findElementByXPath("//div[text()='PROCEED TO BAG']").click();
 
 		String totAL = driver.findElement(By.xpath("//span[@class='price-value bold-font']")).getText();
@@ -145,9 +145,11 @@ public class ProjectDaySel90 {
 
 		String replacedAll = rs1.replaceAll("\\D", "");
 
-		double parseInt2 = Integer.parseInt(replacedAll);
+		double parseDouble = Double.parseDouble(replacedAll);
 
-		System.out.println("The coupon saving is :"+ parseInt2);
+		int round =  (int) Math.round(parseDouble);
+		
+		System.out.println("The coupon saving is :"+ round);
 
 		driver.findElement(By.className("delete-btn")).click();
 		Thread.sleep(2000);
@@ -158,6 +160,8 @@ public class ProjectDaySel90 {
 		driver.quit();
 
 		System.out.println("***Run Successfull***");
+
+
 
 
 	}
