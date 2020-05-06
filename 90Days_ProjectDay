@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -66,7 +67,7 @@ public class ProjectDaySel90 {
 		Set<String> windowHandles = driver.getWindowHandles();
 
 		List<String> newWindow = new ArrayList<String>(windowHandles);
-		
+
 		WebDriver window = driver.switchTo().window(newWindow.get(1));
 
 		String rs = driver.findElementByXPath("//div[@class='prod-price-section']//div[@class='prod-sp']").getText();
@@ -101,7 +102,7 @@ public class ProjectDaySel90 {
 		}
 
 		WebDriverWait wait = new WebDriverWait(driver, 20);
-		
+
 		wait.until(ExpectedConditions.visibilityOf(driver.findElementByXPath("//span[text()='Enter pin-code to know estimated delivery date.']")));
 
 		driver.findElement(By.xpath("//span[text()='Enter pin-code to know estimated delivery date.']")).click();
@@ -119,14 +120,13 @@ public class ProjectDaySel90 {
 		System.out.println("Customer care address :"+ cusAddress);
 
 		driver.findElement(By.xpath("//span[text()='ADD TO BAG']")).click();
-		Thread.sleep(3000);
+		Thread.sleep(5000);
 
 		System.out.println("Added to the BAG");
 
-		wait.until(ExpectedConditions.visibilityOf(driver.findElementByXPath("//div//span[text()='GO TO BAG']")));
-
-		driver.findElement(By.xpath("//div//span[text()='GO TO BAG']")).click();
-		Thread.sleep(3000);
+		wait.until(ExpectedConditions.elementToBeClickable(driver.findElementByXPath("//div[text()='PROCEED TO BAG']")));
+		
+		driver.findElementByXPath("//div[text()='PROCEED TO BAG']").click();
 
 		String totAL = driver.findElement(By.xpath("//span[@class='price-value bold-font']")).getText();
 
@@ -158,8 +158,6 @@ public class ProjectDaySel90 {
 		driver.quit();
 
 		System.out.println("***Run Successfull***");
-
-
 
 
 	}
