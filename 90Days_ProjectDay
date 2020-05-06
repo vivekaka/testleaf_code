@@ -1,0 +1,155 @@
+package twentyOneDayChallenge;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
+
+public class ProjectDaySel90 {
+
+	public static void main(String[] args) throws InterruptedException {
+
+
+		ChromeOptions options = new ChromeOptions();
+
+		options.addArguments("--disable-notifications");
+
+		System.setProperty("webdriver.chrome.driver", "./postman/chromedriver.exe");
+
+		ChromeDriver driver = new ChromeDriver(options);
+
+		driver.get("https://www.ajio.com/shop/women");
+
+		driver.manage().window().maximize();
+
+		driver.findElement(By.tagName("input")).sendKeys("Bags");
+		Thread.sleep(2000);
+
+		driver.findElement(By.xpath("(//span[text()='Women Handbags'])[1]")).click();
+		Thread.sleep(2000);
+
+		Actions action = new Actions(driver);
+
+		action.moveToElement(driver.findElement(By.className("five-grid"))).click().build().perform();
+		Thread.sleep(2000);
+
+		WebElement sortBY = driver.findElementByXPath("//div[@class='filter-dropdown']//select[1]");
+
+		Select dropDown = new Select(sortBY);
+
+		dropDown.selectByVisibleText("What's New");
+		Thread.sleep(2000);
+
+		System.out.println("Filtered out");
+
+		action.moveToElement(driver.findElement(By.xpath("//span[text()='price']"))).click().build().perform();
+
+		driver.findElement(By.id("minPrice")).sendKeys("2000", Keys.TAB);
+
+		driver.findElement(By.id("maxPrice")).sendKeys("5000", Keys.TAB);
+
+		driver.findElement(By.xpath("(//button[@type='submit'])[2]")).click();
+		Thread.sleep(2000);
+
+		driver.findElementByXPath("//img[@alt='Puma Red Shoulder Ferrari LS Shoulder Bag']").click();
+		Thread.sleep(4000);
+
+		Set<String> windowHandles = driver.getWindowHandles();
+
+		List<String> newWindow = new ArrayList<String>(windowHandles);
+
+		String rs = driver.findElementByXPath("//div[@class='prod-price-section']//div[@class='prod-sp']").getText();
+
+		String replaceAll = rs.replaceAll("\\D", "");
+
+		int productPrice = Integer.parseInt(replaceAll);
+
+		if(productPrice >= 2690) {
+
+			String couponCode = driver.findElementByXPath("//div[@class='promo-title-blck']//div[text()='EPIC']").getText();
+
+			System.out.println("The Coupon code is :"+couponCode);
+
+			String discountPrice = driver.findElementByXPath("//div[@class='promo-discounted-price']//span[text()='2141']").getText();
+
+			String replaceAll2 = discountPrice.replaceAll("\\D", "");
+
+			int discountVal = Integer.parseInt(replaceAll2);
+
+			System.out.println("The discount price is :"+discountVal);
+
+			int disPrice = productPrice -discountVal;
+
+			System.out.println("The final discount price is :"+disPrice );
+
+		}
+
+		else {
+
+			System.out.println("Offer is not applicable");
+		}
+
+
+		driver.findElement(By.xpath("//span[text()='Enter pin-code to know estimated delivery date.']")).click();
+
+		driver.findElement(By.name("pincode")).sendKeys("560001");
+
+		driver.findElement(By.className("edd-pincode-modal-submit-btn")).click();
+		Thread.sleep(2000);
+
+		driver.findElement(By.className("other-info-toggle")).click();
+		Thread.sleep(2000);
+
+		String cusAddress = driver.findElementByXPath("(//span[@class='other-info'])[6]").getText();
+
+		System.out.println("Customer care address :"+ cusAddress);
+
+		driver.findElement(By.xpath("//span[text()='ADD TO BAG']")).click();
+		Thread.sleep(3000);
+
+		System.out.println("Added to the BAG");
+
+		driver.findElement(By.xpath("//span[text()='GO TO BAG']")).click();
+		Thread.sleep(3000);
+
+		String totAL = driver.findElement(By.xpath("//span[@class='price-value bold-font']")).getText();
+
+		String replacedAll2 = totAL.replaceAll("\\D", "");
+
+		int parseInt = Integer.parseInt(replacedAll2);
+
+		System.out.println("The order total is :"+parseInt );
+
+		driver.findElement(By.id("couponCodeInput")).sendKeys("EPIC");
+
+		driver.findElement(By.xpath("//button[text()='Apply']")).click();
+		Thread.sleep(2000);
+
+		String rs1 = driver.findElement(By.xpath("(//span[@class='price-value discount-price'])[2]")).getText();
+
+		String replacedAll = rs1.replaceAll("\\D", "");
+
+		double parseInt2 = Integer.parseInt(replacedAll);
+
+		System.out.println("The coupon saving is :"+ parseInt2);
+
+		driver.findElement(By.className("delete-btn")).click();
+		Thread.sleep(2000);
+
+		driver.findElement(By.xpath("(//div[@class='delete-btn'])[2]")).click();
+		Thread.sleep(2000);
+
+		driver.quit();
+
+		System.out.println("***Run Successfull***");
+
+	}
+
+}
