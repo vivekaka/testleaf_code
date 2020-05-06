@@ -123,7 +123,9 @@ public class ProjectDaySel90 {
 
 		System.out.println("Added to the BAG");
 
-		driver.findElement(By.xpath("//span[text()='GO TO BAG']")).click();
+		wait.until(ExpectedConditions.visibilityOf(driver.findElementByXPath("//div//span[text()='GO TO BAG']")));
+
+		driver.findElement(By.xpath("//div//span[text()='GO TO BAG']")).click();
 		Thread.sleep(3000);
 
 		String totAL = driver.findElement(By.xpath("//span[@class='price-value bold-font']")).getText();
