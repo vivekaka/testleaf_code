@@ -122,24 +122,18 @@ public class ProjectDaySel90 {
 
 		driver.findElementByXPath("//div[text()='PROCEED TO BAG']").click();
 
-		String totAL = driver.findElement(By.xpath("//span[@class='price-value bold-font']")).getText();
+		String total = driver.findElementByXPath("//span[text()='Order Total']/following::span").getText().replaceAll("\\D", "");
 
-		String replacedAll2 = totAL.replaceAll("\\D", "");
-
-		int parseInt = Integer.parseInt(replacedAll2);
-
-		System.out.println("The order total is :"+parseInt );
+		System.out.println("The order total is :"+total );
 
 		driver.findElement(By.id("couponCodeInput")).sendKeys("EPIC");
 
 		driver.findElement(By.xpath("//button[text()='Apply']")).click();
 		Thread.sleep(2000);
 
-		String rs1 = driver.findElement(By.xpath("(//span[@class='price-value discount-price'])[2]")).getText();
+		String rs1 = driver.findElement(By.xpath("(//span[@class='price-value discount-price'])[2]")).getText().substring(4);
 
-		String replacedAll = rs1.replaceAll("\\D", "");
-
-		double parseDouble = Double.parseDouble(replacedAll);
+		double parseDouble = Double.parseDouble(rs1);
 
 		int round =  (int) Math.round(parseDouble);
 
