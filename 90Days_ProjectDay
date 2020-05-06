@@ -66,6 +66,8 @@ public class ProjectDaySel90 {
 		Set<String> windowHandles = driver.getWindowHandles();
 
 		List<String> newWindow = new ArrayList<String>(windowHandles);
+		
+		WebDriver window = driver.switchTo().window(newWindow.get(1));
 
 		String rs = driver.findElementByXPath("//div[@class='prod-price-section']//div[@class='prod-sp']").getText();
 
