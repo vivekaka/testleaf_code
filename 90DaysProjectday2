@@ -1,0 +1,148 @@
+package twentyOneDayChallenge;
+
+import java.io.File;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class ProjectDay2Sel90 {
+
+	public static void main(String[] args) throws InterruptedException {
+
+		System.setProperty("webdriver.chrome.driver", "./postman/chromedriver.exe");
+
+		ChromeDriver driver = new ChromeDriver();
+
+		driver.get("https://azure.microsoft.com/en-in/");
+
+		System.out.println("Navigated to the desired Website");
+
+		driver.manage().window().maximize();
+
+		Actions action = new Actions(driver);
+
+		action.moveToElement(driver.findElement(By.id("navigation-pricing"))).click().build().perform();
+		Thread.sleep(3000);
+
+		System.out.println("Cliked on Pricing button");
+
+		driver.findElement(By.linkText("Pricing calculator")).click();
+		Thread.sleep(3000);
+
+		System.out.println("Cliked on Pricing calculator");
+
+		driver.findElementByXPath("//div[@class='category-container']//button[text()='Containers']").click();
+
+		System.out.println("Cliked on Containers");
+
+		driver.findElementByXPath("(//span[@class='product']//span[text()='Container Instances'])[2]").click();
+		Thread.sleep(2000);
+
+		System.out.println("Cliked on Container Instances");
+
+		driver.findElement(By.id("new-module-loc")).click();
+		Thread.sleep(2000);
+
+		WebElement dropDown = driver.findElementByXPath("(//select[@aria-label='Region'])[1]");
+
+		Select dropDownSelect = new Select(dropDown);
+
+		dropDownSelect.selectByVisibleText("South India");
+
+		System.out.println("First dropdown selected");
+
+		driver.findElementByXPath("//div[@class='wa-textNumber']//input[@aria-label='Seconds']").clear();
+		Thread.sleep(2000);
+
+		driver.findElementByXPath("//div[@class='wa-textNumber']//input[@aria-label='Seconds']").sendKeys("180000");
+
+		WebElement dropDown2 = driver.findElementByXPath("(//div[@class='calculator-dropdown ']//select[@aria-label='Memory'])[1]");
+
+		Select dropDownSelect2 = new Select(dropDown2);
+
+		dropDownSelect2.selectByVisibleText("4 GB");
+
+		System.out.println("Second dropdown selected");
+
+		driver.findElement(By.id("devtest-toggler")).click();
+		Thread.sleep(2000);
+
+		System.out.println("Toggled on for Containers");
+
+		WebElement dropDown3 = driver.findElementByXPath("(//div//select[@aria-label='Currency'])[1]");
+
+		Select dropDownSelect3 = new Select(dropDown3);
+
+		dropDownSelect3.selectByVisibleText("Indian Rupee (₹)");
+		Thread.sleep(3000);
+
+		System.out.println("Third dropdown selected");
+		
+		String text = driver.findElementByXPath("(//span[text()='Monthly cost']/parent::div/span[@class='numeric']/span)[1]").getText();
+		
+		System.out.println("Estimated monthly cost is :"+text);
+		
+		driver.findElementByXPath("(//button[contains(@class,'calculator-button button-transparent')])[4]").click();
+		Thread.sleep(4000);
+		
+		System.out.println("File's Exported");
+		
+		File file = new File("C:\\Users\\vivekaka\\Downloads\\ExportedEstimate.xlsx");
+		
+		if(file.exists()) {
+			
+			System.out.println("File path found");
+		}
+		
+		else {
+			
+			System.out.println("File path isn't found");
+		}
+		
+		action.moveToElement(driver.findElementByXPath("//a[text()='Example Scenarios']")).click().build().perform();
+		
+		System.out.println("Clicked Example Scenarios");
+		
+		driver.findElementByXPath("//span[text()='CI/CD for Containers']").click();
+		
+		System.out.println("clicked CI/CD for containers");
+
+		driver.findElement(By.xpath("//button[text()='Add to estimate']")).click();
+		Thread.sleep(3000);
+
+		WebElement dropDown4 = driver.findElementByXPath("(//div//select[@aria-label='Currency'])[1]");
+
+		Select dropDownSelect4 = new Select(dropDown4);
+
+		dropDownSelect4.selectByVisibleText("Indian Rupee (₹)");
+		
+		System.out.println("Fourth dropdown selected");
+
+		driver.findElement(By.id("devtest-toggler")).click();
+		Thread.sleep(2000);
+
+		System.out.println("Toggled on for Example Scenarios");
+
+		driver.findElementByXPath("//button[text()='Export']").click();
+		Thread.sleep(4000);
+
+		File file2 = new File("C:\\\\Users\\\\vivekaka\\\\Downloads\\\\ExportedEstimate (1).xlsx");
+		
+		if(file2.exists())  {
+			
+			System.out.println("File path 2 is found");
+		}
+		
+		else {
+			
+			System.out.println("File path 2 isn't found");
+		}
+
+	}
+
+}
