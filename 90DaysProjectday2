@@ -113,20 +113,24 @@ public class ProjectDay2Sel90 {
 		System.out.println("clicked CI/CD for containers");
 
 		driver.findElement(By.xpath("//button[text()='Add to estimate']")).click();
+		Thread.sleep(5000);
+
+		WebElement droP = driver.findElementByXPath("//select[@class='select currency-dropdown']");
+		
+		Select dD = new Select(droP);
+		
+		dD.selectByValue("INR");
 		Thread.sleep(3000);
-
-		WebElement dropDown4 = driver.findElementByXPath("(//div//select[@aria-label='Currency'])[1]");
-
-		Select dropDownSelect4 = new Select(dropDown4);
-
-		dropDownSelect4.selectByVisibleText("Indian Rupee (₹)");
+		
+		System.out.println("Rupee Selected");
 		
 		System.out.println("Fourth dropdown selected");
 
-		driver.findElement(By.id("devtest-toggler")).click();
+		action.moveToElement(driver.findElementByXPath("//div[contains(@class,'toggler-slide')]")).click().build().perform();
 		Thread.sleep(2000);
-
+		
 		System.out.println("Toggled on for Example Scenarios");
+
 
 		driver.findElementByXPath("//button[text()='Export']").click();
 		Thread.sleep(4000);
