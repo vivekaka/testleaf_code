@@ -1,8 +1,10 @@
 package twentyOneDayChallenge;
 
 import java.io.File;
+import java.util.NoSuchElementException;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
@@ -18,7 +20,9 @@ public class ProjectDay2Sel90 {
 
 		ChromeDriver driver = new ChromeDriver();
 
-		driver.get("https://azure.microsoft.com/en-in/");
+		driver.get("https://azure.microsoft.com/en-in/pricing/calculator/");
+
+		JavascriptExecutor js = (JavascriptExecutor)driver;
 
 		System.out.println("Navigated to the desired Website");
 
@@ -82,68 +86,78 @@ public class ProjectDay2Sel90 {
 		Thread.sleep(3000);
 
 		System.out.println("Third dropdown selected");
-		
+
 		String text = driver.findElementByXPath("(//span[text()='Monthly cost']/parent::div/span[@class='numeric']/span)[1]").getText();
-		
+
 		System.out.println("Estimated monthly cost is :"+text);
-		
+
 		driver.findElementByXPath("(//button[contains(@class,'calculator-button button-transparent')])[4]").click();
 		Thread.sleep(4000);
-		
+
 		System.out.println("File's Exported");
-		
+
 		File file = new File("C:\\Users\\vivekaka\\Downloads\\ExportedEstimate.xlsx");
-		
+
 		if(file.exists()) {
-			
+
 			System.out.println("File path found");
 		}
-		
+
 		else {
-			
+
 			System.out.println("File path isn't found");
 		}
-		
-		action.moveToElement(driver.findElementByXPath("//a[text()='Example Scenarios']")).click().build().perform();
-		
+
+		WebDriverWait wait = new WebDriverWait(driver, 20);
+
+
+		WebElement exmpScenario = driver.findElementByXPath("//li[@id='solution-architectures-picker']//a[text()='Example Scenarios']");
+
+		js.executeScript("arguments[0].scrollIntoView();", exmpScenario);
+		js.executeScript("arguments[0].click();", exmpScenario);
+
 		System.out.println("Clicked Example Scenarios");
-		
+
 		driver.findElementByXPath("//span[text()='CI/CD for Containers']").click();
-		
+
 		System.out.println("clicked CI/CD for containers");
 
-		driver.findElement(By.xpath("//button[text()='Add to estimate']")).click();
-		Thread.sleep(5000);
+		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Add to estimate']")));
 
-		WebElement droP = driver.findElementByXPath("//select[@class='select currency-dropdown']");
-		
-		Select dD = new Select(droP);
-		
-		dD.selectByValue("INR");
-		Thread.sleep(3000);
-		
+		WebElement ele = driver.findElementByXPath("//button[text()='Add to estimate']");
+
+		js.executeScript("arguments[0].click()", ele);
+
+		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Estimate added!']")));
+		System.out.println("Estimate Added!");
+
+
+		WebElement dD = driver.findElementByXPath("//select[@class='select currency-dropdown']");
+
+		Select dropDown4 = new Select(dD);
+
+		dropDown4.selectByVisibleText("Indian Rupee (₹)");
+
 		System.out.println("Rupee Selected");
-		
-		System.out.println("Fourth dropdown selected");
 
-		action.moveToElement(driver.findElementByXPath("//div[contains(@class,'toggler-slide')]")).click().build().perform();
 		Thread.sleep(2000);
-		
-		System.out.println("Toggled on for Example Scenarios");
 
+		action.moveToElement(driver.findElementByXPath("//button[@name='devTestSelected']")).click().build().perform();
 
-		driver.findElementByXPath("//button[text()='Export']").click();
+		System.out.println("SHOW DEV/TEST PRICING clicked");
+
+		driver.findElementByXPath("(//button[contains(@class,'calculator-button button-transparent')])[4]").click();
 		Thread.sleep(4000);
 
 		File file2 = new File("C:\\\\Users\\\\vivekaka\\\\Downloads\\\\ExportedEstimate (1).xlsx");
-		
+
 		if(file2.exists())  {
-			
+
 			System.out.println("File path 2 is found");
 		}
-		
+
 		else {
-			
+
 			System.out.println("File path 2 isn't found");
 		}
 
