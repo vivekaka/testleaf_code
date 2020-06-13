@@ -35,8 +35,8 @@ public class Carwale_Steps {
 	String strLeastKM = "";
 
 
-	@Given("Go to carwale.com")
-	public void goToHttpsWwwCarwaleCom() {
+	@Given("Open Carwale Site")
+	public void OpenCarwaleSite() {
 
 
 		System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
@@ -63,7 +63,7 @@ public class Carwale_Steps {
 	}
 
 	@And("Select the City as Chennai")
-	public void selectTheCityAsChennai() throws InterruptedException {
+	public void selectTheCity() throws InterruptedException {
 
 		driver.findElementById("usedCarsList").sendKeys("Chennai");
 		Thread.sleep(2000);
@@ -77,8 +77,8 @@ public class Carwale_Steps {
 
 	}
 
-	@And("Select budget min (8L) and max(12L) and Click Search")
-	public void selectBudgetMinLAndMaxLAndClickSearch(Integer int1, Integer int2) throws InterruptedException {
+	@And("Select budget min 8L and max 12L and Click Search")
+	public void selectBudget() throws InterruptedException {
 
 		driver.findElementById("minInput").sendKeys("8",Keys.TAB);
 		Thread.sleep(2000);
@@ -92,7 +92,7 @@ public class Carwale_Steps {
 	}
 
 	@And("Select Cars with Photos under Only Show Cars With")
-	public void selectCarsWithPhotosUnderOnlyShowCarsWith() throws InterruptedException {
+	public void selectCarsWithPhotos() throws InterruptedException {
 
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 
@@ -102,8 +102,8 @@ public class Carwale_Steps {
 		System.out.println("Filter 1 applied");
 	}
 
-	@And("Select Manufacturer as {string} --> Creta")
-	public void selectManufacturerAsCreta(String string) throws InterruptedException {
+	@And("Select Manufacturer as Hyundai Creta")
+	public void selectCarModel() throws InterruptedException {
 
 		WebElement Hyundai = driver.findElementByXPath("//ul[@id='makesList']//li[@data-manufacture-en='Hyundai']");
 
@@ -141,8 +141,8 @@ public class Carwale_Steps {
 
 	}
 
-	@And("Select Best Match as KM: Low to High")
-	public void selectBestMatchAs() throws InterruptedException {
+	@And("Select Best Match as km low to high")
+	public void selectBestMatch() throws InterruptedException {
 
 
 		WebElement Filter = driver.findElement(By.id("sort")); 
@@ -154,7 +154,7 @@ public class Carwale_Steps {
 	}
 
 	@And("Validate the Cars are listed with KMs Low to High")
-	public void validateTheCarsAreListedWithKMsLowToHigh() {
+	public void validateTheCars() {
 
 		Map<Integer,String> leastKMSmap =new LinkedHashMap<Integer,String>();
 
@@ -206,7 +206,7 @@ public class Carwale_Steps {
 	}
 
 	@And("Add the least KM ran car to Wishlist")
-	public void addTheLeastKMRanCarToWishlist() throws InterruptedException {
+	public void addTheCar() throws InterruptedException {
 
 		System.out.println("Least KM utilised by Hyundai Creta car: "+strLeastKM);
 		Thread.sleep(1000);
@@ -226,7 +226,7 @@ public class Carwale_Steps {
 	}
 
 	@When("Go to Wishlist and Click on More Details")
-	public void goToWishlistAndClickOnMoreDetails() throws InterruptedException {
+	public void goToWishlist() throws InterruptedException {
 
 		driver.findElementByXPath("//a[text()='More details »']").click();
 		Thread.sleep(3000);
@@ -235,7 +235,7 @@ public class Carwale_Steps {
 	}
 
 	@Then("Print all the details under Overview")
-	public void printAllTheDetailsUnderOverview() {
+	public void printAllTheDetails() {
 
 		Set<String> newWindow = driver.getWindowHandles();
 
@@ -269,7 +269,7 @@ public class Carwale_Steps {
 	}
 
 	@And("Close the browser")
-	public void closeTheBrowser() {
+	public void close() {
 
 		driver.quit();
 
@@ -278,4 +278,3 @@ public class Carwale_Steps {
 	}
 
 }
-
