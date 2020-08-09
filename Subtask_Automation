@@ -15,10 +15,6 @@ public class Subtask_Jira_Automation {
 
 		System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver1.exe");
 
-		ChromeDriver driver = new ChromeDriver();	
-
-		Actions actions = new Actions(driver);
-
 		String Username = null, Password = null;
 		int n;
 
@@ -34,16 +30,21 @@ public class Subtask_Jira_Automation {
 		n = input.nextInt();
 
 		String[] link = new String[n];
-		
+
 		for (int i = 0; i < n; i++) {
 			System.out.println("Ther the link :"+i);
-			link[i] = input.nextLine();
+			link[i] = input.next();
 		}
-		
+
 
 		for (int i=0;i<n;i++)
 
 		{
+
+			ChromeDriver driver = new ChromeDriver();
+
+			Actions actions = new Actions(driver);
+
 			String linkToBeLaunched= link[i];
 
 			driver.get(linkToBeLaunched);
@@ -93,6 +94,7 @@ public class Subtask_Jira_Automation {
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
+
 
 			WebElement table =  driver.findElement(By.xpath("//*[@id=\"insert-table-dropdown\"]"));
 			actions.moveToElement(table).build().perform();
@@ -307,9 +309,10 @@ public class Subtask_Jira_Automation {
 			.build()
 			.perform();
 
+			driver.close();
+
 			System.out.println("Saved successfully");
 		}
-
 
 	}
 }
