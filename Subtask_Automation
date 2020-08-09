@@ -34,13 +34,19 @@ public class Subtask_Jira_Automation {
 		n = input.nextInt();
 
 		String[] link = new String[n];
+		
+		for (int i = 0; i < n; i++) {
+			System.out.println("Ther the link :"+i);
+			link[i] = input.nextLine();
+		}
+		
 
 		for (int i=0;i<n;i++)
 
 		{
-			String link= link[i];
+			String linkToBeLaunched= link[i];
 
-			driver.get(link);
+			driver.get(linkToBeLaunched);
 
 			System.out.println("Launched the browser");
 
@@ -303,7 +309,7 @@ public class Subtask_Jira_Automation {
 
 			System.out.println("Saved successfully");
 		}
-		
+
 
 	}
 }
