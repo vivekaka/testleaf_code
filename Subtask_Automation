@@ -8,25 +8,19 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 
 public class Subtask_Jira_Automation {
 
-	ChromeDriver driver = null;
-	Actions actions = null;
-	String Username = null, Password = null;
-
-	@BeforeTest
-	public void SetupTest() {
+	public static void main (String[]args) throws InterruptedException {
 
 		System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver1.exe");
 
 		ChromeDriver driver = new ChromeDriver();	
 
-		actions = new Actions(driver);
+		Actions actions = new Actions(driver);
+
+		String Username = null, Password = null;
+		int n;
 
 		Scanner input = new Scanner(System.in);
 
@@ -35,281 +29,284 @@ public class Subtask_Jira_Automation {
 
 		System.out.println("\nEnter your Password:");
 		Password = input.nextLine();
-	}
-	
-	@Parameters({"url"})
-	@Test
-	public void subTasks_ReportWiki(String url) {
 
-		driver.get(url);
+		System.out.println("Enter the no.of Links:");
+		n = input.nextInt();
 
-		System.out.println("Launched the browser");
+		String[] link = new String[n];
 
-		driver.manage().window().maximize();
+		for (int i=0;i<n;i++)
 
-		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		{
+			String link= link[i];
 
-		driver.findElementById("login-form-username").sendKeys(Username);
+			driver.get(link);
 
-		driver.findElementById("login-form-password").sendKeys(Password);
+			System.out.println("Launched the browser");
 
-		driver.findElementById("login-form-submit").click();
+			driver.manage().window().maximize();
 
-		System.out.println("Login Successfull");
+			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 
+			driver.findElementById("login-form-username").sendKeys(Username);
 
-		String tr1 = driver.findElementByXPath("//table[@class='confluenceTable']/tbody[1]/tr[2]/td[1]").getText();
-		String tr2 = driver.findElementByXPath("//table[@class='confluenceTable']/tbody[1]/tr[2]/td[2]").getText();
-		String tr3 = driver.findElementByXPath("//table[@class='confluenceTable']/tbody[1]/tr[2]/td[3]").getText();
-		String tr4 = driver.findElementByXPath("//table[@class='confluenceTable']/tbody[1]/tr[2]/td[4]").getText();
-		String tr5 = driver.findElementByXPath("//table[@class='confluenceTable']/tbody[1]/tr[2]/td[5]").getText();
-		String tr6 = driver.findElementByXPath("//table[@class='confluenceTable']/tbody[1]/tr[2]/td[6]").getText();
-		String tr7 = driver.findElementByXPath("//table[@class='confluenceTable']/tbody[1]/tr[2]/td[7]").getText();
-		String tr8 = driver.findElementByXPath("//table[@class='confluenceTable']/tbody[1]/tr[2]/td[8]").getText();
-		String tr9 = driver.findElementByXPath("//table[@class='confluenceTable']/tbody[1]/tr[2]/td[9]").getText();
-		String trX = driver.findElementByXPath("//table[@class='confluenceTable']/tbody[1]/tr[2]/td[10]").getText();
+			driver.findElementById("login-form-password").sendKeys(Password);
 
+			driver.findElementById("login-form-submit").click();
 
-		//Report Wiki
-		driver.get("https://wiki.labcollab.net/confluence/display/Doppler/July+25");
+			System.out.println("Login Successfull");
 
-		driver.findElementById("os_username").sendKeys(Username);
-
-		driver.findElementById("os_password").sendKeys(Password);
-
-		driver.findElementByXPath("//input[@type='submit']").click();
-
-		driver.findElementByXPath("//span[@class='aui-icon aui-icon-small aui-iconfont-edit']").click();
-
-		try {
-
-			driver.findElementByXPath("//span[@class='aui-icon icon-close']").click();
-			Thread.sleep(3000);
-
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-
-		WebElement table =  driver.findElement(By.xpath("//*[@id=\"insert-table-dropdown\"]"));
-		actions.moveToElement(table).build().perform();
-
-		driver.findElement(By.xpath("//*[@id=\"rte-button-insert-table\"]")).click();
-
-		driver.findElement(By.xpath("//*[@id=\"table-picker-container\"]/div/div/div[4]")).click();
-
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			String tr1 = driver.findElementByXPath("//table[@class='confluenceTable']/tbody[1]/tr[2]/td[1]").getText();
+			String tr2 = driver.findElementByXPath("//table[@class='confluenceTable']/tbody[1]/tr[2]/td[2]").getText();
+			String tr3 = driver.findElementByXPath("//table[@class='confluenceTable']/tbody[1]/tr[2]/td[3]").getText();
+			String tr4 = driver.findElementByXPath("//table[@class='confluenceTable']/tbody[1]/tr[2]/td[4]").getText();
+			String tr5 = driver.findElementByXPath("//table[@class='confluenceTable']/tbody[1]/tr[2]/td[5]").getText();
+			String tr6 = driver.findElementByXPath("//table[@class='confluenceTable']/tbody[1]/tr[2]/td[6]").getText();
+			String tr7 = driver.findElementByXPath("//table[@class='confluenceTable']/tbody[1]/tr[2]/td[7]").getText();
+			String tr8 = driver.findElementByXPath("//table[@class='confluenceTable']/tbody[1]/tr[2]/td[8]").getText();
+			String tr9 = driver.findElementByXPath("//table[@class='confluenceTable']/tbody[1]/tr[2]/td[9]").getText();
+			String trX = driver.findElementByXPath("//table[@class='confluenceTable']/tbody[1]/tr[2]/td[10]").getText();
 
 
-		driver.findElement(By.xpath("//*[@id=\"rte-toolbar-row-default\"]/div[5]/button[2]\r\n" +"")).click();
-		for (int j = 0; j <=6; j++) {
+			//Report Wiki
+			driver.get("https://wiki.labcollab.net/confluence/display/Doppler/July+25");
+
+			driver.findElementById("os_username").sendKeys(Username);
+
+			driver.findElementById("os_password").sendKeys(Password);
+
+			driver.findElementByXPath("//input[@type='submit']").click();
+
+			driver.findElementByXPath("//span[@class='aui-icon aui-icon-small aui-iconfont-edit']").click();
+
+			try {
+
+				driver.findElementByXPath("//span[@class='aui-icon icon-close']").click();
+				Thread.sleep(3000);
+
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+
+			WebElement table =  driver.findElement(By.xpath("//*[@id=\"insert-table-dropdown\"]"));
+			actions.moveToElement(table).build().perform();
+
+			driver.findElement(By.xpath("//*[@id=\"rte-button-insert-table\"]")).click();
+
+			driver.findElement(By.xpath("//*[@id=\"table-picker-container\"]/div/div/div[4]")).click();
+
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 
 			driver.findElement(By.xpath("//*[@id=\"rte-toolbar-row-default\"]/div[5]/button[2]\r\n" +"")).click();
+			for (int j = 0; j <=6; j++) {
 
+				driver.findElement(By.xpath("//*[@id=\"rte-toolbar-row-default\"]/div[5]/button[2]\r\n" +"")).click();
+
+			}
+
+			driver.findElement(By.xpath("//*[@id=\"rte-toolbar-row-default\"]/div[5]/button[2]\r\n" +"")).click();
+			for(int k=0;k<1;k++)
+			{
+				driver.findElement(By.xpath("//*[@id=\"rte-toolbar-row-default\"]/div[2]/button[2]\r\n" +"")).click();
+			}
+
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("Table Created");
+			driver.switchTo().frame(driver.findElement(By.id("wysiwygTextarea_ifr")));
+
+
+
+			WebElement thead1 = driver.findElement(By.xpath("//*[@id='tinymce']/table/tbody/tr[1]/th[1]"));
+			actions = new Actions(driver);
+			actions.moveToElement(thead1);
+			actions.click();
+			actions.sendKeys("TASK ID");
+			actions.build().perform();
+			System.out.println("TASK ID");
+
+			WebElement thead2 = driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[1]/th[2]"));
+			actions = new Actions(driver);
+			actions.moveToElement(thead2);
+			actions.click();
+			actions.sendKeys("Suite Link");
+			actions.build().perform();
+			System.out.println("Suite Link");
+
+			WebElement thead3 = driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[1]/th[3]"));
+			actions = new Actions(driver);
+			actions.moveToElement(thead3);
+			actions.click();
+			actions.sendKeys("PASSED");
+			actions.build().perform();
+			System.out.println("PASSED");
+
+			WebElement thead4 = driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[1]/th[4]"));
+			actions = new Actions(driver);
+			actions.moveToElement(thead4);
+			actions.click();
+			actions.sendKeys("FAILED");
+			actions.build().perform();
+			System.out.println("FAILED");
+
+
+			WebElement thead5 = driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[1]/th[5]"));
+			actions = new Actions(driver);
+			actions.moveToElement(thead5);
+			actions.click();
+			actions.sendKeys("Blocked");
+			actions.build().perform();
+			System.out.println("Blocked");
+
+
+			WebElement thead6 = driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[1]/th[6]"));
+			actions = new Actions(driver);
+			actions.moveToElement(thead6);
+			actions.click();
+			actions.sendKeys("RETEST");
+			actions.build().perform();
+			System.out.println("RETEST");
+
+
+			WebElement thead7 = driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[1]/th[7]"));
+			actions = new Actions(driver);
+			actions.moveToElement(thead7);
+			actions.click();
+			actions.sendKeys("SKIPPED");
+			actions.build().perform();
+			System.out.println("SKIPPED");
+
+
+			WebElement thead8 = driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[1]/th[8]"));
+			actions = new Actions(driver);
+			actions.moveToElement(thead8);
+			actions.click();
+			actions.sendKeys("Not Applicable");
+			actions.build().perform();
+			System.out.println("Not Applicable");
+
+
+			WebElement thead9 = driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[1]/th[9]"));
+			actions = new Actions(driver);
+			actions.moveToElement(thead9);
+			actions.click();
+			actions.sendKeys("TOTAL");
+			actions.build().perform();
+			System.out.println("TOTAL");
+
+
+			WebElement theadX = driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[1]/th[10]"));
+			actions = new Actions(driver);
+			actions.moveToElement(theadX);
+			actions.click();
+			actions.sendKeys("STATUS");
+			actions.build().perform();
+			System.out.println("STATUS");
+
+			System.out.println("----------------------------------------");
+
+
+			WebElement trow1=driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[2]/td[1]"));
+			actions = new Actions(driver);
+			actions.moveToElement(trow1);
+			actions.click();
+			actions.sendKeys(tr1);
+			actions.build().perform();
+
+			WebElement trow2=driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[2]/td[2]"));
+			actions = new Actions(driver);
+			actions.moveToElement(trow2);
+			actions.click();
+			actions.sendKeys(tr2);
+			actions.build().perform();
+
+
+			WebElement trow3=driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[2]/td[3]"));
+			actions = new Actions(driver);
+			actions.moveToElement(trow3);
+			actions.click();
+			actions.sendKeys(tr3);
+			actions.build().perform();
+
+
+			WebElement trow4=driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[2]/td[4]"));
+			actions = new Actions(driver);
+			actions.moveToElement(trow4);
+			actions.click();
+			actions.sendKeys(tr4);
+			actions.build().perform();
+
+
+			WebElement trow5=driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[2]/td[5]"));
+			actions = new Actions(driver);
+			actions.moveToElement(trow5);
+			actions.click();
+			actions.sendKeys(tr5);
+			actions.build().perform();
+
+
+			WebElement trow6=driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[2]/td[6]"));
+			actions = new Actions(driver);
+			actions.moveToElement(trow6);
+			actions.click();
+			actions.sendKeys(tr6);
+			actions.build().perform();
+
+
+			WebElement trow7=driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[2]/td[7]"));
+			actions = new Actions(driver);
+			actions.moveToElement(trow7);
+			actions.click();
+			actions.sendKeys(tr7);
+			actions.build().perform();
+
+
+			WebElement trow8=driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[2]/td[8]"));
+			actions = new Actions(driver);
+			actions.moveToElement(trow8);
+			actions.click();
+			actions.sendKeys(tr8);
+			actions.build().perform();
+
+
+			WebElement trow9=driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[2]/td[9]"));
+			actions = new Actions(driver);
+			actions.moveToElement(trow9);
+			actions.click();
+			actions.sendKeys(tr9);
+			actions.build().perform();
+
+
+			WebElement trowX=driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[2]/td[10]"));
+			actions = new Actions(driver);
+			actions.moveToElement(trowX);
+			actions.click();
+			actions.sendKeys(trX);
+			actions.build().perform();
+
+			actions= new Actions(driver);
+
+			actions.keyDown(Keys.CONTROL)
+			.sendKeys("s")
+			.build()
+			.perform();
+
+			System.out.println("Saved successfully");
 		}
-
-		driver.findElement(By.xpath("//*[@id=\"rte-toolbar-row-default\"]/div[5]/button[2]\r\n" +"")).click();
-		for(int k=0;k<1;k++)
-		{
-			driver.findElement(By.xpath("//*[@id=\"rte-toolbar-row-default\"]/div[2]/button[2]\r\n" +"")).click();
-		}
-
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println("Table Created");
-		driver.switchTo().frame(driver.findElement(By.id("wysiwygTextarea_ifr")));
-
-
-
-		WebElement thead1 = driver.findElement(By.xpath("//*[@id='tinymce']/table/tbody/tr[1]/th[1]"));
-		actions = new Actions(driver);
-		actions.moveToElement(thead1);
-		actions.click();
-		actions.sendKeys("TASK ID");
-		actions.build().perform();
-		System.out.println("TASK ID");
-
-		WebElement thead2 = driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[1]/th[2]"));
-		actions = new Actions(driver);
-		actions.moveToElement(thead2);
-		actions.click();
-		actions.sendKeys("Suite Link");
-		actions.build().perform();
-		System.out.println("Suite Link");
-
-		WebElement thead3 = driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[1]/th[3]"));
-		actions = new Actions(driver);
-		actions.moveToElement(thead3);
-		actions.click();
-		actions.sendKeys("PASSED");
-		actions.build().perform();
-		System.out.println("PASSED");
-
-		WebElement thead4 = driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[1]/th[4]"));
-		actions = new Actions(driver);
-		actions.moveToElement(thead4);
-		actions.click();
-		actions.sendKeys("FAILED");
-		actions.build().perform();
-		System.out.println("FAILED");
-
-
-		WebElement thead5 = driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[1]/th[5]"));
-		actions = new Actions(driver);
-		actions.moveToElement(thead5);
-		actions.click();
-		actions.sendKeys("Blocked");
-		actions.build().perform();
-		System.out.println("Blocked");
-
-
-		WebElement thead6 = driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[1]/th[6]"));
-		actions = new Actions(driver);
-		actions.moveToElement(thead6);
-		actions.click();
-		actions.sendKeys("RETEST");
-		actions.build().perform();
-		System.out.println("RETEST");
-
-
-		WebElement thead7 = driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[1]/th[7]"));
-		actions = new Actions(driver);
-		actions.moveToElement(thead7);
-		actions.click();
-		actions.sendKeys("SKIPPED");
-		actions.build().perform();
-		System.out.println("SKIPPED");
-
-
-		WebElement thead8 = driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[1]/th[8]"));
-		actions = new Actions(driver);
-		actions.moveToElement(thead8);
-		actions.click();
-		actions.sendKeys("Not Applicable");
-		actions.build().perform();
-		System.out.println("Not Applicable");
-
-
-		WebElement thead9 = driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[1]/th[9]"));
-		actions = new Actions(driver);
-		actions.moveToElement(thead9);
-		actions.click();
-		actions.sendKeys("TOTAL");
-		actions.build().perform();
-		System.out.println("TOTAL");
-
-
-		WebElement theadX = driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[1]/th[10]"));
-		actions = new Actions(driver);
-		actions.moveToElement(theadX);
-		actions.click();
-		actions.sendKeys("STATUS");
-		actions.build().perform();
-		System.out.println("STATUS");
-
-		System.out.println("----------------------------------------");
-
-
-		WebElement trow1=driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[2]/td[1]"));
-		actions = new Actions(driver);
-		actions.moveToElement(trow1);
-		actions.click();
-		actions.sendKeys(tr1);
-		actions.build().perform();
-
-		WebElement trow2=driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[2]/td[2]"));
-		actions = new Actions(driver);
-		actions.moveToElement(trow2);
-		actions.click();
-		actions.sendKeys(tr2);
-		actions.build().perform();
-
-
-		WebElement trow3=driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[2]/td[3]"));
-		actions = new Actions(driver);
-		actions.moveToElement(trow3);
-		actions.click();
-		actions.sendKeys(tr3);
-		actions.build().perform();
-
-
-		WebElement trow4=driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[2]/td[4]"));
-		actions = new Actions(driver);
-		actions.moveToElement(trow4);
-		actions.click();
-		actions.sendKeys(tr4);
-		actions.build().perform();
-
-
-		WebElement trow5=driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[2]/td[5]"));
-		actions = new Actions(driver);
-		actions.moveToElement(trow5);
-		actions.click();
-		actions.sendKeys(tr5);
-		actions.build().perform();
-
-
-		WebElement trow6=driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[2]/td[6]"));
-		actions = new Actions(driver);
-		actions.moveToElement(trow6);
-		actions.click();
-		actions.sendKeys(tr6);
-		actions.build().perform();
-
-
-		WebElement trow7=driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[2]/td[7]"));
-		actions = new Actions(driver);
-		actions.moveToElement(trow7);
-		actions.click();
-		actions.sendKeys(tr7);
-		actions.build().perform();
-
-
-		WebElement trow8=driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[2]/td[8]"));
-		actions = new Actions(driver);
-		actions.moveToElement(trow8);
-		actions.click();
-		actions.sendKeys(tr8);
-		actions.build().perform();
-
-
-		WebElement trow9=driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[2]/td[9]"));
-		actions = new Actions(driver);
-		actions.moveToElement(trow9);
-		actions.click();
-		actions.sendKeys(tr9);
-		actions.build().perform();
-
-
-		WebElement trowX=driver.findElement(By.xpath("//*[@id=\"tinymce\"]/table/tbody/tr[2]/td[10]"));
-		actions = new Actions(driver);
-		actions.moveToElement(trowX);
-		actions.click();
-		actions.sendKeys(trX);
-		actions.build().perform();
-
-	}
-
-
-	@AfterTest
-	public void tearDownTest() {
-
-		actions= new Actions(driver);
-
-		actions.keyDown(Keys.CONTROL)
-		.sendKeys("s")
-		.build()
-		.perform();
-
-		System.out.println("Saved successfully");
+		
 
 	}
 }
+
+
+
